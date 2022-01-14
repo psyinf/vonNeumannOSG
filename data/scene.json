@@ -1,0 +1,6 @@
+{
+	"name":"Default",
+	"defaultModel":"data/pyra_1x1x3.obj",
+	"numDrones":11111 	,
+	"sceneSize":1000.0
+}
