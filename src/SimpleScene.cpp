@@ -1,14 +1,14 @@
 #include "SimpleScene.h"
 #include "Entity.h"
 #include <random>
+#include "ConfigCache.h"
 #include "SceneConfig.h"
 
 
 void SimpleScene::load(const std::string& fileName)
 {
 
-	const auto scene = json::parse(std::ifstream(fileName)).get<nsConfig::SceneConfig>();
-
+	const auto scene = nsConfig::load<nsConfig::SceneConfig>(fileName);
 
 	std::default_random_engine generator;
 	std::normal_distribution<double> vel_distribution(0.0, 3.0);

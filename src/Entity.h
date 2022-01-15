@@ -2,9 +2,9 @@
 #include "osg/Vec3d"
 #include "osg/PositionAttitudeTransform"
 #include "EntityUpdateCallback.h"
-#include "EntityCache.h"
 #include "EntityBehavior.h"
 
+#include <osgDB/ReadFile>
 namespace nsEntities {
 
 class Entity : public osg::PositionAttitudeTransform {
@@ -13,7 +13,7 @@ public:
 	~Entity() = default;
 	
 	Entity(const std::string& model) {
-		addChild(EntityCache::readNodeFile(model));
+		addChild(osgDB::readNodeFile(model));
 		//addChild(EntityCache::readNodeFile("data/axes.osgt"));
 		addUpdateCallback(new EntityUpdateCallback());
 	}

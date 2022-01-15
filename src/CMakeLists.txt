@@ -2,19 +2,19 @@ project(Viewer LANGUAGES CXX)
 
 add_executable(Viewer
                Viewer.cpp
+               ConfigCache.h
 			   Entity.h
-               EntityCache.h
-               EntityCache.cpp
                EntityBehavior.h
                EntityBehavior.cpp
+               EntityConf.h
+               EntityConf.cpp
 			   EntityTypes.h
 			   SimpleScene.h
 			   SimpleScene.cpp
                EntityUpdateCallback.h
                EntityUpdateCallback.cpp
                SceneConfig.h
-			pid.h
-			pid.cpp
+
 			Vec3dPid.h
                )
 include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
