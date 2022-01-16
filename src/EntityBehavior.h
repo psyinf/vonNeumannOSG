@@ -4,6 +4,7 @@
 #include <osg/BoundingBox>
 #include "Vec3dPid.h"
 #include <nlohmann/json_fwd.hpp>
+#include <iostream>
 
 class SceneConfig;
 namespace nsEntities {
@@ -14,7 +15,7 @@ using Config = nlohmann::json;
 /*
  * Some default entity behaviors as functions
  */
-class BehaviorBase {
+class BehaviorBase  {
 public:
 	BehaviorBase(const std::string& name, const Config& conf )
 		:name(name){
@@ -22,7 +23,7 @@ public:
 	const std::string& getName() const {
 		return name;
 	}
-	const std::string& name;
+	const std::string name;
 	virtual void frame(Entity& entity, FrameTime frameTime) = 0;
 };
 
@@ -48,14 +49,16 @@ public:
 
 class BehaviorRegistry {
 public:
-	std::shared_ptr<BehaviorBase> get(const std::string& name) {
+	static std::shared_ptr<BehaviorBase> get(const std::string& name) {
 		return registry.at(name);
 	}
-	void add(std::shared_ptr<BehaviorBase> behavior) {
-		registry.emplace(behavior->getName(), behavior);
+	static void add(std::shared_ptr<BehaviorBase> behavior) {
+		std::cout << "adding " << behavior->getName() << " to registry" << std::endl;
+		registry.insert_or_assign(behavior->getName(), behavior);
+		
 	}
 protected:
-	std::map<std::string, std::shared_ptr<BehaviorBase>> registry;
+	inline static std::map<std::string, std::shared_ptr<BehaviorBase>> registry;
 };
 
 class EntityBehavior {

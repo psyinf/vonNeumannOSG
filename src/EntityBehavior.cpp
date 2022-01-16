@@ -13,7 +13,8 @@ void EntityBehavior::frame(Entity& entity, FrameTime frameTime)
 }
 
 
-Reflector::Reflector(const Config& conf) :BehaviorBase("reflector", conf)
+Reflector::Reflector(const Config& conf) 
+	:BehaviorBase("reflector", conf)
 {
 	float minSize = conf["box"]["min"];
 	float maxSize = conf["box"]["max"];

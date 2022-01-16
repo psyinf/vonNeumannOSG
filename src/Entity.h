@@ -16,7 +16,14 @@ public:
 	Entity(const std::string& config) {
 		auto conf = nsConfig::load<EntityConf>(config);
 		addChild(osgDB::readNodeFiles(conf.models));
-
+		for (const auto& behavior : conf.behaviors) {
+			try {
+				entityBehavior.add(BehaviorRegistry::get(behavior));
+			}
+			catch (const std::exception& e) {
+				std::cerr << "Cannot add behavior: '" << behavior << "'. Not found" << std::endl;
+			}
+		}
 		addUpdateCallback(new EntityUpdateCallback());
 	}
 

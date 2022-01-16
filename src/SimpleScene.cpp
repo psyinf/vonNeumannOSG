@@ -3,11 +3,23 @@
 #include <random>
 #include "ConfigCache.h"
 #include "SceneConfig.h"
-
+#include "EntityBehavior.h"
 
 void SimpleScene::load(const std::string& fileName)
 {
 	const auto scene = nsConfig::load<nsConfig::SceneConfig>(fileName);
+	auto j = nlohmann::json(
+		{
+			{
+				"box" ,
+				{
+					{ "min" , -500.0f }
+					,{ "max" , 500.0f }
+				}
+			}
+		});
+	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::Reflector>(j));
+	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::PositionController>(nullptr));
 
 	std::default_random_engine generator;
 	std::normal_distribution<double> vel_distribution(0.0, 3.0);

@@ -2,7 +2,7 @@
 
 namespace nsConfig {
 
-	// a simple struct to model a person
+	// a simple struct to model an entity
 	struct SceneConfig {
 		std::string name;
 		std::string defaultEntity;
