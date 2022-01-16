@@ -7,7 +7,6 @@
 
 void SimpleScene::load(const std::string& fileName)
 {
-
 	const auto scene = nsConfig::load<nsConfig::SceneConfig>(fileName);
 
 	std::default_random_engine generator;
@@ -19,7 +18,7 @@ void SimpleScene::load(const std::string& fileName)
 	for (size_t i = scene.numDrones; i-- > 0;) {
 
 		osg::ref_ptr<nsEntities::Entity> model
-			= new nsEntities::Entity(scene.defaultModel);
+			= new nsEntities::Entity(scene.defaultEntity);
 		if (bounds.radius() < 0) {
 			bounds = model->getBound();
 			std::cout << "Calculated bounds for model: " << bounds.radius() << std::endl;

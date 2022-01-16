@@ -2,17 +2,27 @@
 #include "Entity.h"
 #include "EntityBehavior.h"
 #include "Vec3dPid.h"
+#include <nlohmann/json.hpp>
 using namespace nsEntities;
 
 
-void EntityBehavior::frame(Entity& entity, float frame_time)
+void EntityBehavior::frame(Entity& entity, FrameTime frameTime)
 {
-	float dim = 1000;
-	reflectInsideBox(entity, osg::BoundingBox(osg::Vec3(-dim,-dim,-dim), osg::Vec3(dim,dim,dim)));
-	entity.getVelocity() += pidController.calculate(osg::Vec3d(0.1, 0, 0), entity.getPosition(), frame_time);
+	std::for_each(std::cbegin(behaviors), std::cend(behaviors), [&](auto b) {b->frame(entity, frameTime); });
+	
 }
 
-void EntityBehavior::reflectInsideBox(Entity& entity, const osg::BoundingBox& box)
+
+Reflector::Reflector(const Config& conf) :BehaviorBase("reflector", conf)
+{
+	float minSize = conf["box"]["min"];
+	float maxSize = conf["box"]["max"];
+	box._min = osg::Vec3(1, 1, 1) * minSize;
+	box._max = osg::Vec3(1, 1, 1) * maxSize;
+}
+
+
+void Reflector::frame(Entity& entity, FrameTime frameTime)
 {
 	auto& velocity = entity.getVelocity();
 	osg::Vec3d trans = entity.getPosition();
@@ -45,5 +55,7 @@ void EntityBehavior::reflectInsideBox(Entity& entity, const osg::BoundingBox& bo
 	entity.setPosition(trans);
 }
 
-
-
+void PositionController::frame(Entity& entity, FrameTime frameTime)
+{
+	entity.getVelocity() += pidController.calculate(osg::Vec3d(0.1, 0, 0), entity.getPosition(), frameTime);
+}

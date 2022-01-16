@@ -3,7 +3,8 @@
 #include "osg/PositionAttitudeTransform"
 #include "EntityUpdateCallback.h"
 #include "EntityBehavior.h"
-
+#include "EntityConf.h"
+#include "ConfigCache.h"
 #include <osgDB/ReadFile>
 namespace nsEntities {
 
@@ -12,9 +13,10 @@ public:
 	Entity() = default;
 	~Entity() = default;
 	
-	Entity(const std::string& model) {
-		addChild(osgDB::readNodeFile(model));
-		//addChild(EntityCache::readNodeFile("data/axes.osgt"));
+	Entity(const std::string& config) {
+		auto conf = nsConfig::load<EntityConf>(config);
+		addChild(osgDB::readNodeFiles(conf.models));
+
 		addUpdateCallback(new EntityUpdateCallback());
 	}
 
@@ -29,7 +31,6 @@ public:
 	
 		kinematicUpdate(delta_sec);
 		entityBehavior.frame(*this, delta_sec);
-
 	}
 
 	virtual void kinematicUpdate(float delta_sec)
@@ -45,6 +46,7 @@ public:
 	
 protected:
 	osg::Vec3d velocity;
+	// reflect entities 'kinematically' (invert velocity)
 	nsEntities::EntityBehavior entityBehavior;
 	
 };

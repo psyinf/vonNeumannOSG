@@ -48,6 +48,7 @@ void setupCaching()
 
         osgDB::Registry::instance()->getOrCreateSharedStateManager()->setShareMode(mode);
     }
+    osgDB::Registry::instance()->getDataFilePathList().emplace_back("data");
 
     osgDB::ReaderWriter::Options* opt = osgDB::Registry::instance()->getOptions();
     if (opt == NULL)
@@ -93,7 +94,7 @@ void setupCaching()
    
 }
 
-int main(int argc, char** argv)
+int main(int argc, char** argv) try
 {
     osgViewer::Viewer viewer;
 
@@ -142,4 +143,7 @@ int main(int argc, char** argv)
 
     return viewer.run();
 
-} 
+}
+catch (const std::exception& e){
+    std::cout << e.what() << std::endl;
+}
