@@ -18,8 +18,21 @@ void SimpleScene::load(const std::string& fileName)
 				}
 			}
 		});
+
+	auto pid = nlohmann::json(
+		{
+			{
+				"pid" ,
+				{
+					 0.001f 
+					, 0.01f 
+					, 0.01f 
+				}
+			}
+		});
 	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::Reflector>(j));
-	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::PositionController>(nullptr));
+	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::PositionController>(pid));
+	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::Torusifator>(j));
 
 	std::default_random_engine generator;
 	std::normal_distribution<double> vel_distribution(0.0, 3.0);

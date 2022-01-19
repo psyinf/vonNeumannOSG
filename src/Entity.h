@@ -21,7 +21,7 @@ public:
 				entityBehavior.add(BehaviorRegistry::get(behavior));
 			}
 			catch (const std::exception& e) {
-				std::cerr << "Cannot add behavior: '" << behavior << "'. Not found" << std::endl;
+				std::cerr << "Cannot add behavior: '" << behavior.name << "'. Not found" << std::endl;
 			}
 		}
 		addUpdateCallback(new EntityUpdateCallback());
@@ -31,8 +31,16 @@ public:
 
 	const osg::Vec3d& getVelocity() const { return velocity; }
 	osg::Vec3d& getVelocity() {	return velocity; }
-	void setVelocity(osg::Vec3d val) { velocity = val; }
-	
+	void setVelocity(const osg::Vec3d& val) { velocity = val; }
+
+	const osg::Vec3d& getAcceleration() const { return acceleration; }
+	osg::Vec3d& getAcceleration() { return acceleration; }
+	void setAcceleration(const osg::Vec3d& val) { acceleration = val; }
+
+	const osg::Vec3d& getTarget() const { return target; }
+	osg::Vec3d& getTarget() { return target; }
+	void setTarget(const osg::Vec3d& val) { target = val; }
+
 
 	virtual void update(float delta_sec) {
 	
@@ -42,8 +50,10 @@ public:
 
 	virtual void kinematicUpdate(float delta_sec)
 	{
-		setPosition(getPosition() + getVelocity() * delta_sec);
+		getVelocity() += getAcceleration() * delta_sec;
+		setPosition(getPosition() + getVelocity() );
 
+		//TODO: turn-rate and acceleration along axis
 		osg::Vec3d unitVelocity = velocity;
 		unitVelocity.normalize();
 		osg::Quat rot; rot.makeRotate(osg::Vec3d(0, 0, 1), unitVelocity );
@@ -52,7 +62,9 @@ public:
 	}
 	
 protected:
+	osg::Vec3d target;
 	osg::Vec3d velocity;
+	osg::Vec3d acceleration;
 	// reflect entities 'kinematically' (invert velocity)
 	nsEntities::EntityBehavior entityBehavior;
 	

@@ -14,7 +14,7 @@ void EntityBehavior::frame(Entity& entity, FrameTime frameTime)
 
 
 Reflector::Reflector(const Config& conf) 
-	:BehaviorBase("reflector", conf)
+	:BehaviorBase("reflector")
 {
 	float minSize = conf["box"]["min"];
 	float maxSize = conf["box"]["max"];
@@ -58,5 +58,57 @@ void Reflector::frame(Entity& entity, FrameTime frameTime)
 
 void PositionController::frame(Entity& entity, FrameTime frameTime)
 {
-	entity.getVelocity() += pidController.calculate(osg::Vec3d(0.1, 0, 0), entity.getPosition(), frameTime);
+	entity.getAcceleration() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime);
+	//std::cout << pidController.getPreError().length() << std::endl;
 }
+
+std::shared_ptr<StateFullBehavior> PositionController::clone(const nsEntities::BehaviorConf& conf)
+{
+	return std::make_shared<PositionController>(conf.conf);
+}
+
+PositionController::PositionController(const Config& conf) 
+	:StateFullBehavior("position")
+{
+	const auto& pid = conf["pid"];
+	pidController.setPid(osg::Vec3d(pid[0], pid[1], pid[2]));
+
+}
+
+Torusifator::Torusifator(const Config& conf)
+	:BehaviorBase("torus")
+{
+	float minSize = conf["box"]["min"];
+	float maxSize = conf["box"]["max"];
+	box._min = osg::Vec3(1, 1, 1) * minSize;
+	box._max = osg::Vec3(1, 1, 1) * maxSize;
+}
+
+
+void Torusifator::frame(Entity& entity, FrameTime frameTime)
+{
+	auto& velocity = entity.getVelocity();
+	osg::Vec3d trans = entity.getPosition();
+	if (trans.x() > box.xMax()) {
+		trans.x() = box.xMin();
+	}
+	else if (trans.x() < box.xMin()) {
+		trans.x() = box.xMax();
+	}
+
+	if (trans.y() > box.yMax()) {
+		trans.y() = box.yMin();
+	}
+	else if (trans.y() < box.yMin()) {
+		trans.y() = box.yMax();
+	}
+
+	if (trans.z() > box.zMax()) {
+		trans.z() = box.zMin();
+	}
+	else if (trans.z() < box.zMin()) {
+		trans.z() = box.zMax();
+	}
+	entity.setPosition(trans);
+}
+

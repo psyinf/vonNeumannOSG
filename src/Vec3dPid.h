@@ -8,6 +8,25 @@ class Vec3dPid {
 	osg::Vec3d preError;
 	osg::Vec3d integral;
 public:
+	void setPid(const osg::Vec3d& value) {
+		pid = value;
+	}
+
+	const osg::Vec3d& getPid() const{
+		return pid;
+	}
+
+	const osg::Vec3d getPreError() const {
+		return preError;
+	}
+
+	void setMinValue(const osg::Vec3d& value) {
+		minValue = value;
+	}
+
+	void setMaxValue(const osg::Vec3d& value) {
+		maxValue = value;
+	}
 	Vec3dPid(osg::Vec3d pid, osg::Vec3d minValue, osg::Vec3d maxValue)
 	: pid(pid), minValue(minValue), maxValue(maxValue){
 		
