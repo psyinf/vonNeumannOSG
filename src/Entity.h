@@ -43,15 +43,14 @@ public:
 
 
 	virtual void update(float delta_sec) {
-	
-		kinematicUpdate(delta_sec);
 		entityBehavior.frame(*this, delta_sec);
+		kinematicUpdate(delta_sec);
 	}
 
 	virtual void kinematicUpdate(float delta_sec)
 	{
-		getVelocity() += getAcceleration() * delta_sec;
-		setPosition(getPosition() + getVelocity() );
+		getVelocity() += getAcceleration() ;
+		setPosition(getPosition() + getVelocity() * delta_sec);
 
 		//TODO: turn-rate and acceleration along axis
 		osg::Vec3d unitVelocity = velocity;

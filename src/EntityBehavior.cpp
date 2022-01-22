@@ -58,8 +58,11 @@ void Reflector::frame(Entity& entity, FrameTime frameTime)
 
 void PositionController::frame(Entity& entity, FrameTime frameTime)
 {
-	entity.getAcceleration() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime);
-	//std::cout << pidController.getPreError().length() << std::endl;
+	entity.getVelocity() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime);
+	
+	//std::cout << "P: " <<entity.getPosition().x() << "," <<entity.getPosition().y() << "," << entity.getPosition().z() << std::endl;
+
+	//std::cout << "E: " <<pidController.getPreError().length() << std::endl;
 }
 
 std::shared_ptr<StateFullBehavior> PositionController::clone(const nsEntities::BehaviorConf& conf)

@@ -138,7 +138,8 @@ int main(int argc, char** argv) try
     //optimizer.optimize(ss->getSceneRoot(), osgUtil::Optimizer::DEFAULT_OPTIMIZATIONS);
 
     viewer.setSceneData(ss->getSceneRoot());
-
+    viewer.getCamera()->setComputeNearFarMode(osg::CullSettings::DO_NOT_COMPUTE_NEAR_FAR);
+  
     viewer.realize();
 
     return viewer.run();

@@ -51,7 +51,7 @@ void SimpleScene::load(const std::string& fileName)
 		osg::Matrix mat;
 
 		model->setPosition(osg::Vec3d(pos_distribution(generator), pos_distribution(generator), pos_distribution(generator)));
-
+		
 		model->setVelocity(osg::Vec3d(vel_distribution(generator) * bounds.radius(), vel_distribution(generator) * bounds.radius(), vel_distribution(generator) * bounds.radius()));
 		root->addChild(model);
 

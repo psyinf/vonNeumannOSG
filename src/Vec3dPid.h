@@ -31,10 +31,7 @@ public:
 	: pid(pid), minValue(minValue), maxValue(maxValue){
 		
 	}
-	Vec3dPid(osg::Vec3d pid)
-		: pid(pid) {
-
-	}
+	
 	Vec3dPid(const osg::Vec3d& pid, const osg::Vec3d& limits)
 		: pid(pid), minValue(-limits), maxValue(limits) {
 
@@ -59,9 +56,9 @@ public:
 		auto output = pOut + iOut + dOut;
 
 		// Restrict to max/min
-		//osg::clampTo(output.x() ,minValue.x(), maxValue.x());
-		//osg::clampTo(output.y(), minValue.y(), maxValue.y());
-		//osg::clampTo(output.z(), minValue.z(), maxValue.z());
+		osg::clampTo(output.x() ,minValue.x(), maxValue.x());
+		osg::clampTo(output.y(), minValue.y(), maxValue.y());
+		osg::clampTo(output.z(), minValue.z(), maxValue.z());
 	
 		// Save error to previous error
 		preError = error;
