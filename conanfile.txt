@@ -1,0 +1,8 @@
+[requires]
+openscenegraph/3.6.5
+nlohmann_json/3.10.5
+cppkafka/0.3.1
+
+
+[generators]
+cmake_find_package

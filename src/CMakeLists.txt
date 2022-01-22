@@ -1,4 +1,5 @@
 project(Viewer LANGUAGES CXX)
+find_package(nlohmann_json REQUIRED)
 
 add_executable(Viewer
                Viewer.cpp
@@ -14,14 +15,14 @@ add_executable(Viewer
                EntityUpdateCallback.h
                EntityUpdateCallback.cpp
                SceneConfig.h
-
-			Vec3dPid.h
+			   Vec3dPid.h
                )
-include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
+			   
+			   
 
-#target_link_libraries(Viewer PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
-target_link_libraries(Viewer PRIVATE ${OPENSCENEGRAPH_LIBRARIES})
-target_include_directories(Viewer PRIVATE ${PLOG_INCLUDE_DIRS})
+target_link_libraries (Viewer nlohmann_json::nlohmann_json)
+ include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
+  target_link_libraries(Viewer ${OPENSCENEGRAPH_LIBRARIES})
 
 
 
