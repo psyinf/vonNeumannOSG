@@ -2,7 +2,18 @@
 openscenegraph/3.6.5
 nlohmann_json/3.10.5
 cppkafka/0.3.1
+kangaru/4.2.4
+qt/6.2.2
+pslog/0.1
 
 
 [generators]
-cmake_find_package
+cmake_multi
+
+[options]
+qt:shared=True
+openssl:shared=True
+
+[imports]
+bin, *.dll -> ./bin # Copies all dll files from the package "bin" folder to my project "bin" folder
+lib, *.dylib* -> ./bin # Copies all dylib files from the package "lib" folder to my project "bin" folder

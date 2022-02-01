@@ -4,13 +4,15 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_DEBUG_POSTFIX _d)
 set(CMAKE_RELWITHDEBINFO_POSTFIX _rd)
-
+add_definitions(-Dcppkafka_EXPORTS)
 # Run conan install automatically, or display warning if conan is not installed
 include(cmake/conan_config.cmake)
-
 
 if(WIN32)
     add_compile_definitions(WINDOWS=1)
 endif ()
 
-add_subdirectory(src)
+add_subdirectory(src/SimpleViewer)
+add_subdirectory(src/kafkaTest)
+add_subdirectory(src/injectionTest)
+add_subdirectory(src/ChartViewer)

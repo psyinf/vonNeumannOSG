@@ -57,7 +57,6 @@ public:
 		unitVelocity.normalize();
 		osg::Quat rot; rot.makeRotate(osg::Vec3d(0, 0, 1), unitVelocity );
 		setAttitude(rot);
-
 	}
 	
 protected:
