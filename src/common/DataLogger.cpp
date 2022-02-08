@@ -49,6 +49,5 @@ void DataLogger::send()
 void DataLogger::start()
 {
 	sendThread = std::thread(&DataLogger::send, this);
-
 }
 
