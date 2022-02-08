@@ -8,11 +8,13 @@ pslog/0.1
 
 
 [generators]
-cmake_multi
+cmake
+qt 
 
 [options]
 qt:shared=True
 openssl:shared=True
+OpenSceneGraph:shared=True
 
 [imports]
 bin, *.dll -> ./bin # Copies all dll files from the package "bin" folder to my project "bin" folder

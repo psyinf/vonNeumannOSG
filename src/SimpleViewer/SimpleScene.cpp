@@ -1,9 +1,10 @@
 #include "SimpleScene.h"
 #include "Entity.h"
 #include <random>
-#include "ConfigCache.h"
+#include <JsonConfigCache.h>
 #include "SceneConfig.h"
 #include "EntityBehavior.h"
+#include "KafkaLoggerBehavior.h"
 
 void SimpleScene::load(const std::string& fileName)
 {
@@ -33,6 +34,7 @@ void SimpleScene::load(const std::string& fileName)
 	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::Reflector>(j));
 	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::PositionController>(pid));
 	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::Torusifator>(j));
+	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::KafkaLogger>());
 
 	std::default_random_engine generator;
 	std::normal_distribution<double> vel_distribution(0.0, 3.0);
@@ -41,9 +43,10 @@ void SimpleScene::load(const std::string& fileName)
 	size_t columns = scene.numDrones / rows;
 	osg::BoundingSphere bounds;
 	for (size_t i = scene.numDrones; i-- > 0;) {
-
+		std::stringstream ss;
+		ss << "drone" << i;
 		osg::ref_ptr<nsEntities::Entity> model
-			= new nsEntities::Entity(scene.defaultEntity);
+			= new nsEntities::Entity(ss.str(), scene.defaultEntity);
 		if (bounds.radius() < 0) {
 			bounds = model->getBound();
 			std::cout << "Calculated bounds for model: " << bounds.radius() << std::endl;

@@ -58,7 +58,7 @@ void Reflector::frame(Entity& entity, FrameTime frameTime)
 
 void PositionController::frame(Entity& entity, FrameTime frameTime)
 {
-	entity.getVelocity() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime);
+	entity.getVelocity() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime.delta);
 	
 	//std::cout << "P: " <<entity.getPosition().x() << "," <<entity.getPosition().y() << "," << entity.getPosition().z() << std::endl;
 

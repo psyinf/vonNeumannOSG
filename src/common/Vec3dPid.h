@@ -1,5 +1,5 @@
 #pragma once
-
+#include <osg/Vec3d>
 
 class Vec3dPid {
 	osg::Vec3d pid;

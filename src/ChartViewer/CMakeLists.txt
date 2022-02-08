@@ -9,13 +9,11 @@ add_executable(ChartViewer
                main.cpp
                )
 			   
-			   
+find_package(cppkafka MODULE REQUIRED)
 find_package(Qt6 COMPONENTS Widgets Core QWindowsIntegrationPlugin REQUIRED)
-qt_import_plugins(ChartViewer
-    INCLUDE Qt::QWindowsIntegrationPlugin
-)
 
-target_link_libraries(ChartViewer Qt6::Widgets Qt6::Core Qt6::QWindowsIntegrationPlugin)
+
+target_link_libraries(ChartViewer Qt6::Widgets Qt6::Core Qt6::QWindowsIntegrationPlugin cppkafka::cppkafka)
 
 
 
@@ -28,3 +26,6 @@ install(TARGETS ChartViewer
         CONFIGURATIONS Debug Release RelWithDebInfo 
         RUNTIME DESTINATION bin)
 		
+set_target_properties(
+    ChartViewer PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_INSTALL_PREFIX}/bin")

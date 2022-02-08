@@ -1,35 +1,52 @@
-project(Viewer LANGUAGES CXX)
+set(APP_NAME SimpleViewer)
+project(${APP_NAME} LANGUAGES CXX)
 find_package(nlohmann_json REQUIRED)
+find_package(cppkafka MODULE REQUIRED)
 
-add_executable(Viewer
-               Viewer.cpp
-               ConfigCache.h
-			   Entity.h
-               EntityBehavior.h
-               EntityBehavior.cpp
-               EntityConf.h
-               EntityConf.cpp
-			   EntityTypes.h
-			   SimpleScene.h
-			   SimpleScene.cpp
-               EntityUpdateCallback.h
-               EntityUpdateCallback.cpp
-               SceneConfig.h
-			   Vec3dPid.h
-               )
+file(GLOB HEADER_FILES 	CONFIGURE_DEPENDS "*.h")
+file(GLOB CPP_FILES 	CONFIGURE_DEPENDS "*.cpp")
+
+add_executable(${APP_NAME} 
+	${HEADER_FILES}
+	${CPP_FILES}
+)
 			   
 			   
 
-target_link_libraries (Viewer nlohmann_json::nlohmann_json)
- include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
-  target_link_libraries(Viewer ${OPENSCENEGRAPH_LIBRARIES})
+
+target_link_libraries (${APP_NAME} 
+					PRIVATE
+						nlohmann_json::nlohmann_json 
+						cppkafka::cppkafka
+						${OPENSCENEGRAPH_LIBRARIES}
+				
+						${PROJECT_NAMESPACE}::common
+						
+)
+include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
+
+
+
+target_include_directories(${APP_NAME}
+	PRIVATE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" 
+	FILES ${HEADER_FILES} ${CPP_FILES}
+)
 
 
 
 
-set_target_properties(Viewer PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-set_target_properties(Viewer PROPERTIES RELWITHDEBINFO_POSTFIX ${CMAKE_RELWITHDEBINFO_POSTFIX})
 
-install(TARGETS Viewer
+set_target_properties(${APP_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+set_target_properties(${APP_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX ${CMAKE_RELWITHDEBINFO_POSTFIX})
+
+install(TARGETS ${APP_NAME}
         CONFIGURATIONS Debug Release RelWithDebInfo 
         RUNTIME DESTINATION bin)
+
+set_target_properties(
+    ${APP_NAME} PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_INSTALL_PREFIX}/bin")

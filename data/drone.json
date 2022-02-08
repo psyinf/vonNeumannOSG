@@ -1,4 +1,5 @@
 {
+	"type" : "drone"
 	"models": [
 			"data/pyra_1x1x3.obj"
 	],
@@ -7,11 +8,21 @@
 			"name": "position",
 			"conf": {
 				"pid": [
-					1.7,
-					0.05,
-					0.21
+					0.45,
+					0.8,
+					0.0
 				]
 			}
+			
+		},
+		{
+			"name": "kafkalogger",
+			"conf": {
+				"channels": [
+					"behaviors.position.err"
+				] 
+			}
+			
 		}
 	]
 }
