@@ -6,10 +6,12 @@ kangaru/4.2.4
 qt/6.2.2
 pslog/0.1
 nlohmann_json/3.10.5
+freetype/2.11.0
+#qwt/6.2.0
 
 [generators]
-cmake
-qt 
+cmake_find_package
+qt  
 
 [options]
 qt:shared=True

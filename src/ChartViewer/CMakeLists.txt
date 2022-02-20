@@ -10,10 +10,16 @@ add_executable(ChartViewer
                )
 			   
 find_package(cppkafka MODULE REQUIRED)
-find_package(Qt6 COMPONENTS Widgets Core QWindowsIntegrationPlugin REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Core QWindowsIntegrationPlugin Charts)
 
 
-target_link_libraries(ChartViewer Qt6::Widgets Qt6::Core Qt6::QWindowsIntegrationPlugin cppkafka::cppkafka)
+
+target_link_libraries(ChartViewer  
+    Qt6::Widgets 
+    Qt6::Core 
+    Qt6::QWindowsIntegrationPlugin 
+    Qt6::Charts
+    cppkafka::cppkafka)
 
 
 

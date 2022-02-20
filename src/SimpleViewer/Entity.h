@@ -42,7 +42,7 @@ public:
 	void setAcceleration(const osg::Vec3d& val) { acceleration = val; }
 
 	const osg::Vec3d& getTarget() const { return target; }
-	osg::Vec3d& getTarget() { return target; }
+	osg::Vec3d& getTarget() { return target; } 
 	void setTarget(const osg::Vec3d& val) { target = val; }
 
 
@@ -67,7 +67,7 @@ public:
 		return entityBehaviors.get(name);
 	}
 	
-protected:
+private:
 	osg::Vec3d target;
 	osg::Vec3d velocity;
 	osg::Vec3d acceleration;

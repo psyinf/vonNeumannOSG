@@ -3,7 +3,7 @@
 #include "EntityBehavior.h"
 
 #include <cppkafka/cppkafka.h>
-namespace nsEntities {
+namespace entities {
 class KafkaLogger: public BehaviorBase {
 public:
 	 

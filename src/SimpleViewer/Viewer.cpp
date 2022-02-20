@@ -139,7 +139,7 @@ int main(int argc, char** argv) try
 
     viewer.setSceneData(ss->getSceneRoot());
     viewer.getCamera()->setComputeNearFarMode(osg::CullSettings::DO_NOT_COMPUTE_NEAR_FAR);
-  
+    viewer.setUpViewInWindow(100, 100, 1024, 1024);
     viewer.realize();
 
     return viewer.run();

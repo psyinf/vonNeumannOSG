@@ -3,21 +3,20 @@
 #include "EntityBehavior.h"
 #include "Vec3dPid.h"
 #include <nlohmann/json.hpp>
-using namespace nsEntities;
+using namespace entities;
 
 
 void EntityBehavior::frame(Entity& entity, FrameTime frameTime)
 {
-	std::for_each(std::cbegin(behaviors), std::cend(behaviors), [&](auto b) {b->frame(entity, frameTime); });
-	
+	std::ranges::for_each (behaviors, [&](auto b) {b->frame(entity, frameTime); });
 }
 
 
 Reflector::Reflector(const Config& conf) 
 	:BehaviorBase("reflector")
 {
-	float minSize = conf["box"]["min"];
-	float maxSize = conf["box"]["max"];
+	const float minSize = conf["box"]["min"];
+	const float maxSize = conf["box"]["max"];
 	box._min = osg::Vec3(1, 1, 1) * minSize;
 	box._max = osg::Vec3(1, 1, 1) * maxSize;
 }
@@ -58,14 +57,10 @@ void Reflector::frame(Entity& entity, FrameTime frameTime)
 
 void PositionController::frame(Entity& entity, FrameTime frameTime)
 {
-	entity.getVelocity() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime.delta);
-	
-	//std::cout << "P: " <<entity.getPosition().x() << "," <<entity.getPosition().y() << "," << entity.getPosition().z() << std::endl;
-
-	//std::cout << "E: " <<pidController.getPreError().length() << std::endl;
+	  entity.getAcceleration() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime.delta);
 }
 
-std::shared_ptr<StateFullBehavior> PositionController::clone(const nsEntities::BehaviorConf& conf)
+std::shared_ptr<StateFullBehavior> PositionController::clone(const entities::BehaviorConf& conf)
 {
 	return std::make_shared<PositionController>(conf.conf);
 }
@@ -81,8 +76,8 @@ PositionController::PositionController(const Config& conf)
 Torusifator::Torusifator(const Config& conf)
 	:BehaviorBase("torus")
 {
-	float minSize = conf["box"]["min"];
-	float maxSize = conf["box"]["max"];
+	const float minSize = conf["box"]["min"];
+	const float maxSize = conf["box"]["max"];
 	box._min = osg::Vec3(1, 1, 1) * minSize;
 	box._max = osg::Vec3(1, 1, 1) * maxSize;
 }
@@ -90,9 +85,8 @@ Torusifator::Torusifator(const Config& conf)
 
 void Torusifator::frame(Entity& entity, FrameTime frameTime)
 {
-	auto& velocity = entity.getVelocity();
 	osg::Vec3d trans = entity.getPosition();
-	if (trans.x() > box.xMax()) {
+	if (trans.x() > box.xMax()) {s
 		trans.x() = box.xMin();
 	}
 	else if (trans.x() < box.xMin()) {

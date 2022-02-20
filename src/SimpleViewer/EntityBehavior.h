@@ -19,7 +19,7 @@ using Config = nlohmann::json;
  */
 class BehaviorBase  {
 public:
-	BehaviorBase(const std::string& name)
+	explicit BehaviorBase(const std::string& name)
 		:name(name){
 	};
 	const std::string& getName() const {
@@ -29,14 +29,13 @@ public:
 
 	const std::string name;
 	virtual void frame(Entity& entity, FrameTime frameTime) = 0;
-	virtual void setConfiguration(nlohmann::json conf) {
-	};
+    virtual void setConfiguration(nlohmann::json conf) = 0;
 };
 
 /* Subclass that describes a behavior with own state. A PID controller relying on the previous frame e.g.*/
 class StateFullBehavior : public BehaviorBase {
 public:
-	StateFullBehavior(const std::string& name)
+	explicit StateFullBehavior(const std::string& name)
 		:BehaviorBase(name) {
 	}
 	virtual std::shared_ptr<StateFullBehavior> clone(const nsEntities::BehaviorConf& conf) = 0;
@@ -44,21 +43,21 @@ public:
 
 class Reflector : public BehaviorBase {
 public:
-	Reflector(const Config& conf);
+	explicit Reflector(const Config& conf);
 	osg::BoundingBox box;
 	virtual void frame(Entity& entity, FrameTime frameTime) override;
 };
 
 class Torusifator : public BehaviorBase {
 public:
-	Torusifator(const Config& conf);
+	explicit Torusifator(const Config& conf);
 	osg::BoundingBox box;
 	virtual void frame(Entity& entity, FrameTime frameTime) override;
 };
 
 class PositionController : public StateFullBehavior {
 public:
-	PositionController(const Config& conf);
+	explicit PositionController(const Config& conf);
 
 	PositionController()
 	: StateFullBehavior("position"){
@@ -66,8 +65,8 @@ public:
 	}
 
 
-	virtual void frame(Entity& entity, FrameTime frameTime) override;
-	virtual std::shared_ptr<StateFullBehavior> clone(const nsEntities::BehaviorConf& conf) override;
+	void frame(Entity& entity, FrameTime frameTime) override;
+	std::shared_ptr<StateFullBehavior> clone(const nsEntities::BehaviorConf& conf) override;
 
 
 	Vec3dPid pidController = Vec3dPid(osg::Vec3d(0.1, 0.0001, 0.01), osg::Vec3d(0.1, 0.1, 0.1));
@@ -79,7 +78,7 @@ public:
 
 class BehaviorRegistry {
 public:
-	static std::shared_ptr<BehaviorBase> get(std::string entity_type, const nsEntities::BehaviorConf& conf) {
+	static std::shared_ptr<BehaviorBase> get(const std::string& entity_type, const nsEntities::BehaviorConf& conf) {
 	
 		std::shared_ptr<BehaviorBase> instance;
 		if (registry.contains(entity_type + "_" + conf.type)) {
@@ -102,7 +101,7 @@ public:
 	/**
 	 * add prototype of behavior
 	 */
-	static void add(std::string entity_type, std::shared_ptr<BehaviorBase> behavior) {
+	static void add(const std::string& entity_type, std::shared_ptr<BehaviorBase> behavior) {
 		std::cout << "adding behavior: " << behavior->getName() << " for entity type " << entity_type  << " to registry" << std::endl;
 		registry.insert_or_assign(entity_type + "_" + behavior->getName(), behavior);
 		
@@ -127,7 +126,7 @@ public:
 	}
 
 	virtual void frame(Entity& entity, FrameTime frameTime);
-protected:
+private:
 	std::vector<std::shared_ptr<BehaviorBase>>	behaviors;
 };
 
