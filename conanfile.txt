@@ -1,11 +1,10 @@
 [requires]
 openscenegraph/3.6.5
-nlohmann_json/3.10.5
+nlohmann_json/3.10.5 #move t0 3.10.6 as soon as possible
 cppkafka/0.3.1
 kangaru/4.2.4
 qt/6.2.2
 pslog/0.1
-nlohmann_json/3.10.5
 freetype/2.11.0
 #qwt/6.2.0
 

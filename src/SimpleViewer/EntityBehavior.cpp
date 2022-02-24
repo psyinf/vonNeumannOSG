@@ -8,7 +8,7 @@ using namespace entities;
 
 void EntityBehavior::frame(Entity& entity, FrameTime frameTime)
 {
-	std::ranges::for_each (behaviors, [&](auto b) {b->frame(entity, frameTime); });
+	std::ranges::for_each(behaviors, [&](auto b) {b->frame(entity, frameTime); });
 }
 
 
@@ -86,7 +86,7 @@ Torusifator::Torusifator(const Config& conf)
 void Torusifator::frame(Entity& entity, FrameTime frameTime)
 {
 	osg::Vec3d trans = entity.getPosition();
-	if (trans.x() > box.xMax()) {s
+	if (trans.x() > box.xMax()) {
 		trans.x() = box.xMin();
 	}
 	else if (trans.x() < box.xMin()) {

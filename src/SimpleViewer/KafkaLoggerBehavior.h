@@ -11,7 +11,7 @@ public:
 
 	
 	void frame(Entity& entity, FrameTime frameTime) override;
-	void setConfiguration(nlohmann::json conf) override;
+	void setConfiguration(const nlohmann::json& conf) override;
 	void handleMessage(nsDataLogger::Message&& msg) const ;
 	void flush() const;
 private:

@@ -8,7 +8,7 @@ void EntityUpdateCallback::operator()(osg::Node* node, osg::NodeVisitor* nv)
 		lastFrame = *nv->getFrameStamp();
 		return;
 	}
-	nsEntities::Entity* entity = dynamic_cast<nsEntities::Entity*>(node);
+	entities::Entity* entity = dynamic_cast<entities::Entity*>(node);
 	
 	if (entity)
 	{

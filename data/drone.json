@@ -1,28 +1,32 @@
 {
-	"type" : "drone"
+	"type": "drone",
 	"models": [
-			"data/pyra_1x1x3.obj"
+		"data/pyra_1x1x3.obj"
 	],
 	"behaviors": [
 		{
-			"name": "position",
+			"enabled": true,
+			"type": "position",
 			"conf": {
 				"pid": [
-					0.45,
-					0.8,
-					0.0
+					0.17,
+					0.1,
+					0.5
 				]
 			}
-			
 		},
 		{
-			"name": "kafkalogger",
+			"enabled": false,
+			"type": "kafkalogger",
 			"conf": {
 				"channels": [
 					"behaviors.position.err"
-				] 
+				]
 			}
-			
 		}
-	]
+	],
+	"properties": {
+		"faction": "red",
+		"bla": "blub"
+	}
 }

@@ -13,7 +13,7 @@ const cppkafka::Configuration config = {
 
 };
 
-nsEntities::KafkaLogger::KafkaLogger()
+entities::KafkaLogger::KafkaLogger()
 	:BehaviorBase("kafkalogger")
     , dataLogger(std::make_unique<nsDataLogger::DataLogger>([this](auto m) { this->handleMessage(std::move(m)); }, [this]() { this->flush(); }))
 {
@@ -23,7 +23,7 @@ nsEntities::KafkaLogger::KafkaLogger()
 	dataLogger->start();
 }
 
-void nsEntities::KafkaLogger::frame(Entity& entity, FrameTime frameTime)
+void entities::KafkaLogger::frame(Entity& entity, FrameTime frameTime)
 {
 	auto x = std::dynamic_pointer_cast<PositionController>(entity.getBehavior("position"));
 	const auto err = x->pidController.getPreError().length();
@@ -32,17 +32,17 @@ void nsEntities::KafkaLogger::frame(Entity& entity, FrameTime frameTime)
 	dataLogger->push(nsDataLogger::Message({ entity.getName(), std::move(errStr) }));
 }
 
-void nsEntities::KafkaLogger::setConfiguration(nlohmann::json conf)
+void entities::KafkaLogger::setConfiguration(const nlohmann::json& conf)
 {
 	const auto& channels = conf["channels"];
 }
  
-void nsEntities::KafkaLogger::handleMessage(nsDataLogger::Message&& msg) const
+void entities::KafkaLogger::handleMessage(nsDataLogger::Message&& msg) const
 {
 	producer->add_message(cppkafka::MessageBuilder(std::move(msg.topic)).partition(0).payload(msg.buffer));
 }
 
-void nsEntities::KafkaLogger::flush() const
+void entities::KafkaLogger::flush() const
 {
 	producer->async_flush();
 }

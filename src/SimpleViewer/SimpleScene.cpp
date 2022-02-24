@@ -31,10 +31,10 @@ void SimpleScene::load(const std::string& fileName)
 				}
 			}
 		});
-	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::Reflector>(j));
-	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::PositionController>(pid));
-	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::Torusifator>(j));
-	nsEntities::BehaviorRegistry::add(std::make_shared<nsEntities::KafkaLogger>());
+	entities::BehaviorRegistry::add(std::make_shared<entities::Reflector>(j));
+	entities::BehaviorRegistry::add(std::make_shared<entities::PositionController>(pid));
+	entities::BehaviorRegistry::add(std::make_shared<entities::Torusifator>(j));
+	entities::BehaviorRegistry::add(std::make_shared<entities::KafkaLogger>());
 
 	std::default_random_engine generator;
 	std::normal_distribution<double> vel_distribution(0.0, 3.0);
@@ -45,8 +45,8 @@ void SimpleScene::load(const std::string& fileName)
 	for (size_t i = scene.numDrones; i-- > 0;) {
 		std::stringstream ss;
 		ss << "drone" << i;
-		osg::ref_ptr<nsEntities::Entity> model
-			= new nsEntities::Entity(ss.str(), scene.defaultEntity);
+		osg::ref_ptr<entities::Entity> model
+			= new entities::Entity(ss.str(), scene.defaultEntity);
 		if (bounds.radius() < 0) {
 			bounds = model->getBound();
 			std::cout << "Calculated bounds for model: " << bounds.radius() << std::endl;
