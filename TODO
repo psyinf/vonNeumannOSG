@@ -1,0 +1,7 @@
+- PluginManager
+- encapsulate plugins (minimize dependencies. I.e. kafaka logger)
+- how to get properties of plugin over plugins?
+- concept for "scenarios"
+-- should create multiple "scenes" 
+-- scenes contain drones with different properties 
+--- e.g. red vs blue

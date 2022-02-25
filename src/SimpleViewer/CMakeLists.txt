@@ -1,7 +1,7 @@
 set(APP_NAME SimpleViewer)
 project(${APP_NAME} LANGUAGES CXX)
 find_package(nlohmann_json REQUIRED)
-find_package(cppkafka MODULE REQUIRED)
+
 
 file(GLOB HEADER_FILES 	CONFIGURE_DEPENDS "*.h")
 file(GLOB CPP_FILES 	CONFIGURE_DEPENDS "*.cpp")
@@ -17,10 +17,11 @@ add_executable(${APP_NAME}
 target_link_libraries (${APP_NAME} 
 					PRIVATE
 						nlohmann_json::nlohmann_json 
-						cppkafka::cppkafka
+
 						${OPENSCENEGRAPH_LIBRARIES}
 				
 						${PROJECT_NAMESPACE}::common
+						${PROJECT_NAMESPACE}::interfaces
 						
 )
 include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})

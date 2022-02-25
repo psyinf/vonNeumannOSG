@@ -25,8 +25,11 @@ entities::KafkaLogger::KafkaLogger()
 
 void entities::KafkaLogger::frame(Entity& entity, FrameTime frameTime)
 {
-	auto x = std::dynamic_pointer_cast<PositionController>(entity.getBehavior("position"));
-	const auto err = x->pidController.getPreError().length();
+	//TODO: how to couple properties between Plugins?
+	//auto x = std::dynamic_pointer_cast<PositionController>(entity.getBehavior("position"));
+   
+	const auto err = 1.0;
+    //x->pidController.getPreError().length();
 
 	auto errStr = std::to_string(err);
 	dataLogger->push(nsDataLogger::Message({ entity.getName(), std::move(errStr) }));

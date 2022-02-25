@@ -4,7 +4,7 @@
 #include <JsonConfigCache.h>
 #include "SceneConfig.h"
 #include "EntityBehavior.h"
-#include "KafkaLoggerBehavior.h"
+
 
 void SimpleScene::load(const std::string& fileName)
 {
@@ -32,13 +32,13 @@ void SimpleScene::load(const std::string& fileName)
 			}
 		});
 	entities::BehaviorRegistry::add(std::make_shared<entities::Reflector>(j));
-	entities::BehaviorRegistry::add(std::make_shared<entities::PositionController>(pid));
+	//entities::BehaviorRegistry::add(std::make_shared<entities::PositionController>(pid));
 	entities::BehaviorRegistry::add(std::make_shared<entities::Torusifator>(j));
-	entities::BehaviorRegistry::add(std::make_shared<entities::KafkaLogger>());
+	//entities::BehaviorRegistry::add(std::make_shared<entities::KafkaLogger>());
 
 	std::default_random_engine generator;
-	std::normal_distribution<double> vel_distribution(0.0, 3.0);
-	std::normal_distribution<double> pos_distribution(0.0, 100.0);
+	std::normal_distribution vel_distribution(0.0, 3.0);
+	std::normal_distribution pos_distribution(0.0, 100.0);
 	size_t rows = std::sqrtl(scene.numDrones);
 	size_t columns = scene.numDrones / rows;
 	osg::BoundingSphere bounds;
@@ -59,5 +59,10 @@ void SimpleScene::load(const std::string& fileName)
 		root->addChild(model);
 
 	}
+}
+
+osg::Group* SimpleScene::getSceneRoot()
+{
+    return root;
 }
 

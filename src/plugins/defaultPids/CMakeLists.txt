@@ -1,0 +1,44 @@
+set(MODULE_NAME DefaultPids)
+
+file(GLOB_RECURSE PRIVATE_FILES	CONFIGURE_DEPENDS	*.*)
+
+add_library(${MODULE_NAME} MODULE
+	${PRIVATE_FILES}
+)
+
+target_link_libraries(${MODULE_NAME} PRIVATE
+	PUBLIC
+		#Boost::boost
+			${PROJECT_NAMESPACE}::common
+		${PROJECT_NAMESPACE}::interfaces
+		#${PROJECT_NAMESPACE}::BallisticSystem
+		#${PROJECT_NAMESPACE}::EngineCommon
+		#${PROJECT_NAMESPACE}::EngineInterface
+
+	PRIVATE
+		#Boost::program_options
+		#Lua
+
+	
+
+		#${PROJECT_NAMESPACE}::EntityManager
+		#${PROJECT_NAMESPACE}::GenericBallisticLib
+)
+
+target_compile_features(${MODULE_NAME}
+	PRIVATE
+		cxx_std_23
+)
+
+install(TARGETS ${MODULE_NAME}
+	RUNTIME
+		DESTINATION ${CMAKE_INSTALL_BINDIR}/plugins
+		COMPONENT ${RUNTIME_COMPONENT}
+	LIBRARY
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}/plugins
+		COMPONENT ${RUNTIME_COMPONENT}
+	ARCHIVE
+		DESTINATION ${CMAKE_INSTALL_ARCHIVEDIR}/plugins
+		COMPONENT ${DEVELOP_COMPONENT}
+)
+#install_pdbs(TARGET ${MODULE_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR}/plugins)

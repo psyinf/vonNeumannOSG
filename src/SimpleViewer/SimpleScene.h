@@ -11,12 +11,10 @@ class SimpleScene {
 public:
 	void load(const std::string& fileName);
 
-	osg::Group* getSceneRoot() {
-		return root;
-	}
+	osg::Group* getSceneRoot();
 
 
-protected:
+private:
 	osg::ref_ptr<osg::Group> root = new osg::Group();
 
 
