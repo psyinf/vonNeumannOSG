@@ -9,7 +9,7 @@ add_library(${MODULE_NAME} MODULE
 target_link_libraries(${MODULE_NAME} PRIVATE
 	PUBLIC
 		#Boost::boost
-			${PROJECT_NAMESPACE}::common
+		${PROJECT_NAMESPACE}::common
 		${PROJECT_NAMESPACE}::interfaces
 		#${PROJECT_NAMESPACE}::BallisticSystem
 		#${PROJECT_NAMESPACE}::EngineCommon

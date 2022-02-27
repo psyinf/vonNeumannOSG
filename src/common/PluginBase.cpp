@@ -67,3 +67,13 @@ PLUGIN_API void PluginBase::getInfo(PluginInfo& info) const
 {
   getInfoFunction(info); 
 }
+
+PLUGIN_API PluginBase::~PluginBase()
+{
+   
+    if (dllHandle.has_value())
+    {
+        ::FreeLibrary(std::any_cast<HMODULE>(dllHandle));
+    }
+
+}

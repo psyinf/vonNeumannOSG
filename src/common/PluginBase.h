@@ -20,7 +20,7 @@ public:
     using DLLHandle = std::any;
 
     PLUGIN_API explicit PluginBase(const std::string& path);
-    PLUGIN_API virtual ~PluginBase() = default;
+    PLUGIN_API virtual ~PluginBase();
 
     PluginBase(const PluginBase&) = delete;
     PluginBase& operator=(const PluginBase&) = delete;
