@@ -4,10 +4,13 @@
 #include <JsonConfigCache.h>
 #include "SceneConfig.h"
 #include "EntityBehavior.h"
+#include "EntityBehaviorRegistry.h"
+#include "EntityManager.h"
 
 
 void SimpleScene::load(const std::string& fileName)
 {
+    std::shared_ptr<entities::EntityManager> entityManager    = std::make_unique<entities::EntityManager>();
 	const auto scene = nsConfig::load<nsConfig::SceneConfig>(fileName);
 	auto j = nlohmann::json(
 		{
@@ -31,11 +34,13 @@ void SimpleScene::load(const std::string& fileName)
 				}
 			}
 		});
-	entities::BehaviorRegistry::add(std::make_shared<entities::Reflector>(j));
-	//entities::BehaviorRegistry::add(std::make_shared<entities::PositionController>(pid));
-	entities::BehaviorRegistry::add(std::make_shared<entities::Torusifator>(j));
-	//entities::BehaviorRegistry::add(std::make_shared<entities::KafkaLogger>());
+	
 
+    //auto& registry = entityManager->getBehaviorRegistry();
+    //registry.add(std::make_shared<entities::Torusifator>(j));
+    //registry.add(std::make_shared<entities::Reflector(j))
+	
+	
 	std::default_random_engine generator;
 	std::normal_distribution vel_distribution(0.0, 3.0);
 	std::normal_distribution pos_distribution(0.0, 100.0);
@@ -43,10 +48,7 @@ void SimpleScene::load(const std::string& fileName)
 	size_t columns = scene.numDrones / rows;
 	osg::BoundingSphere bounds;
 	for (size_t i = scene.numDrones; i-- > 0;) {
-		std::stringstream ss;
-		ss << "drone" << i;
-		osg::ref_ptr<entities::Entity> model
-			= new entities::Entity(ss.str(), scene.defaultEntity);
+        osg::ref_ptr<entities::Entity> model = new entities::Entity(std::format("drone{}",i), scene.defaultEntity, entityManager);
 		if (bounds.radius() < 0) {
 			bounds = model->getBound();
 			std::cout << "Calculated bounds for model: " << bounds.radius() << std::endl;

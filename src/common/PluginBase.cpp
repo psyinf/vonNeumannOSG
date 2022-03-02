@@ -54,7 +54,6 @@ PluginBase::PluginBase(const std::string& path)
         reportMissingInterface(path, "getInfo");
     }
 
-
     dllHandle = handle;
 }
 

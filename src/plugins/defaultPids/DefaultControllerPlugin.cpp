@@ -1,5 +1,11 @@
 #include <PluginBase.h>
-#include <Entities.h>
+#include "PositionController.h"
+#include <EntityBehavior.h>
+#include <EntityManager.h>
+#include <EntityBehaviorRegistry.h>
+
+#include <boost/functional/factory.hpp>
+
 
 #define CONTROLLER_PLUGIN_API _declspec(dllexport)
 
@@ -8,14 +14,11 @@ extern "C" CONTROLLER_PLUGIN_API void getInfo(common::PluginInfo& info)
     info.name = "DefaultPIDControllers";
 }
 
-
-
-
-/// Tells us to register our functionality to an engine kernel
-extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::Entities& entities)
+extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::EntityBehaviorRegistry& registry)
 {
     try
     {
+        registry.registerPrototype("position", boost::factory<PositionController*>());
         //add constructor for the module
         //core.getModuleRegistry()->addConstructor("DISSystem", boost::factory<nsDISSystem::DISSystem*>());
     }

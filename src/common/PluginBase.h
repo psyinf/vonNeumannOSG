@@ -28,13 +28,15 @@ public:
     PLUGIN_API void getInfo(PluginInfo& info) const;
     void            reportMissingInterface(const std::string& path, const std::string& name) const;
 
+    DLLHandle getHandle() const {
+        return dllHandle;
+    }
+
 private:
     DLLHandle   dllHandle;
     std::string path;
-
     std::function<void(PluginInfo&)> getInfoFunction;
 
-   
 };
 
 

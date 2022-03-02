@@ -3,20 +3,24 @@
 #include <osg/PositionAttitudeTransform>
 #include <osgDB/ReadFile>
 #include "EntityUpdateCallback.h"
-#include "EntityBehavior.h"
-#include "EntityConf.h"
 #include "JsonConfigCache.h"
+#include "EntityConf.h"
+
 
 
 namespace entities {
+class BehaviorBase;
+class EntityBehaviors;
+class EntityManager;
 
 class Entity : public osg::PositionAttitudeTransform {
-	using Property = std::string;
+	using PropertyName = std::string;
 public:
 	Entity() = default;
 	~Entity() = default;
 	
-	Entity(const std::string& name, const std::string& config);
+	Entity(const std::string& name, const std::string& config, std::shared_ptr<EntityManager> em);
+
 
 
 
@@ -48,12 +52,10 @@ private:
 	osg::Vec3d target;
 	osg::Vec3d velocity;
 	osg::Vec3d acceleration;
-	// reflect entities 'kinematically' (invert velocity)
-	entities::EntityBehavior entityBehaviors;
-    std::unordered_map<Property, Config> entityProperties;
 	
-
-
+	std::unique_ptr<EntityBehaviors> entityBehaviors = std::make_unique<EntityBehaviors>();
+    std::unordered_map<PropertyName ,nlohmann::json> entityProperties;
+    std::shared_ptr<entities::EntityManager>           entityManager;
 };
 
 template <class T>

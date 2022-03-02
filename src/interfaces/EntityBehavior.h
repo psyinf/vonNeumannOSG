@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EntityConf.h"
+#include "Entity.h"
 #include "Vec3dPid.h"
 
 #include <osg/BoundingBox>
@@ -9,8 +10,11 @@
 #include <iostream>
 
 class SceneConfig;
+
+
 namespace entities {
 class Entity;
+class Entities;
 
 using FrameTime = struct { int frame; float delta; };
 using Config = nlohmann::json;
@@ -19,97 +23,25 @@ using Config = nlohmann::json;
  */
 class BehaviorBase  {
 public:
-	explicit BehaviorBase(const std::string& name)
-		:name(name){
-	};
-	explicit BehaviorBase(std::string&& name) 
-        :name(std::move(name)){
-	}
-	const std::string& getName() const {
-		return name;
-	}
-
-	const std::string name;
-	virtual void frame(Entity& entity, FrameTime frameTime) = 0;
-    virtual void      setConfiguration(const Config& conf){ 
-		//optional handling 
-	};
+    explicit BehaviorBase(const BehaviorConf& conf){};
+	
+    virtual void      frame(Entity& entity, FrameTime frameTime){};
 };
 
-/* Subclass that describes a behavior with own state. A PID controller relying on the previous frame e.g.*/
-class StateFullBehavior : public BehaviorBase {
-public:
-	using BehaviorBase::BehaviorBase;
-	virtual std::shared_ptr<StateFullBehavior> clone(const entities::BehaviorConf& conf) = 0;
-};
 
 class Reflector : public BehaviorBase {
 public:
-	explicit Reflector(const Config& conf);
+    explicit Reflector(const BehaviorConf& conf);
 	osg::BoundingBox box;
 	void frame(Entity& entity, FrameTime frameTime) override;
 };
 
 class Torusifator : public BehaviorBase {
 public:
-	explicit Torusifator(const Config& conf);
+    explicit Torusifator(const BehaviorConf& conf);
 	osg::BoundingBox box;
 	void frame(Entity& entity, FrameTime frameTime) override;
 };
 
-
-class BehaviorRegistry {
-public:
-	static std::shared_ptr<BehaviorBase> get(const std::string& entity_type, const entities::BehaviorConf& conf) {
-	
-		std::shared_ptr<BehaviorBase> instance;
-		if (registry.contains(entity_type + "_" + conf.type)) {
-			instance = registry.at(entity_type + "_" + conf.type);
-			//TODO: we need to cache setting up conf 
-			instance->setConfiguration(conf.conf);
-		}
-		else {
-			instance = registry.at(conf.type);
-		}
-		
-		auto stateful_instance = std::dynamic_pointer_cast<StateFullBehavior>(instance);
-		if (stateful_instance) {
-			return stateful_instance->clone(conf);
-		}
-		else {
-			return instance;
-		}
-	}
-	/**
-	 * add prototype of behavior
-	 */
-	static void add(const std::string& entity_type, std::shared_ptr<BehaviorBase> behavior) {
-		std::cout << "adding behavior: " << behavior->getName() << " for entity type " << entity_type  << " to registry" << std::endl;
-		registry.insert_or_assign(entity_type + "_" + behavior->getName(), behavior);
-		
-	}
-	static void add(std::shared_ptr<BehaviorBase> behavior) {
-		std::cout << "adding generic behavior: " << behavior->getName() << " to registry" << std::endl;
-		registry.insert_or_assign(behavior->getName(), behavior);
-	}
-protected:
-	inline static std::map<std::string, std::shared_ptr<BehaviorBase>> registry;
-};
-
-class EntityBehavior {
-public:
-	void add(std::shared_ptr<entities::BehaviorBase> behaviorBase) {
-		behaviors.push_back(behaviorBase);
-	}
-
-	std::shared_ptr<BehaviorBase> get(const std::string& name) const {
-		auto res = std::find_if(std::cbegin(behaviors), std::cend(behaviors), [&name](const auto& b) {return b->getName() == name; });
-		return (*res);
-	}
-
-	virtual void frame(Entity& entity, FrameTime frameTime);
-private:
-	std::vector<std::shared_ptr<BehaviorBase>>	behaviors;
-};
 
 } //namespace

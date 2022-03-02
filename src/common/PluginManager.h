@@ -1,8 +1,5 @@
 #pragma once
 
-
-
-#include <boost/algorithm/string.hpp>
 #include <filesystem>
 #include <format>
 #include <iostream>
@@ -10,11 +7,19 @@
 #include <memory>
 #include <string>
 #include <vector>
-
+#include <ranges>
 
 namespace common
 {
-
+constexpr bool isDebug()
+{
+    // TODO: move to global helper
+    bool is_debug = false;
+#ifdef _DEBUG
+    is_debug = true;
+#endif
+    return is_debug;
+}
 
 template <class PluginBaseClass, class PluginInfoType>
 class PluginManager
@@ -23,12 +28,13 @@ class PluginManager
     using PluginMap     = std::map<PluginInfoType, PluginBasePtr>;
 
 public:
-    PluginManager()
-    {
-    }
+    PluginManager() = default;
     virtual ~PluginManager() = default;
     
-    
+    PluginBasePtr makeInstance(const std::filesystem::directory_entry& entry)
+    {
+        return std::make_shared<PluginBaseClass>(entry.path().string());
+    }
 
     void scanForPlugins(const std::string& path, const std::vector<std::string>& filters)
     {
@@ -41,20 +47,19 @@ public:
     size_t scanForPlugins(const std::string& path, const std::string& filter = "*.dll")
     {
         size_t      num_loaded = 0;
-        std::cout <<  "Scanning for plugins in :" + path;
+        //std::cout <<  "Scanning for plugins in :" + path;
 
         for (auto& p : std::filesystem::directory_iterator(path)) /*get directory */
         {
-            bool is_debug = false;
-#ifdef _DEBUG
-            is_debug = true;
-#endif
-            if (!boost::algorithm::iends_with(p.path().string(), "_d.dll") && is_debug)
+            auto        file_path = p.path().filename().replace_extension("").string();
+            file_path | std::ranges::views::transform([](auto c) { return std::toupper(c); });
+           
+            if (!file_path.ends_with("_d") && isDebug())
             {
                 //log(pslog::Level::CONFIG) << "skipping non-debug plugin: " << dir_entry;
                 continue;
             }
-            else if (boost::algorithm::iends_with(p.path().string(), "_d.dll") && !is_debug)
+            else if (file_path.ends_with("_d") && !isDebug())
             {
                 //log(pslog::Level::CONFIG) << "skipping debug plugin: " << dir_entry;
                 continue;
@@ -63,7 +68,7 @@ public:
             {
                 try
                 {
-                    PluginBasePtr  plugin(new PluginBaseClass(p.path().string()));
+                    auto plugin = makeInstance(p);
                     PluginInfoType plugin_info;
                     plugin->getInfo(plugin_info);
                     if (!mPlugins.count(plugin_info))
@@ -85,6 +90,8 @@ public:
         }
         return num_loaded;
     }
+
+   
 
     PluginBasePtr getPlugin(const std::string& plugin_name)
     {

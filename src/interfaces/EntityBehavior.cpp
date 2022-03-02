@@ -3,20 +3,16 @@
 #include "EntityBehavior.h"
 #include "Vec3dPid.h"
 #include <nlohmann/json.hpp>
+
 using namespace entities;
 
 
-void EntityBehavior::frame(Entity& entity, FrameTime frameTime)
-{
-	std::ranges::for_each(behaviors, [&](auto b) {b->frame(entity, frameTime); });
-}
 
-
-Reflector::Reflector(const Config& conf) 
-	:BehaviorBase("reflector")
+Reflector::Reflector(const BehaviorConf& conf) 
+	:BehaviorBase(conf)
 {
-	const float minSize = conf["box"]["min"];
-	const float maxSize = conf["box"]["max"];
+	const float minSize = conf.conf["box"]["min"];
+	const float maxSize = conf.conf["box"]["max"];
 	box._min = osg::Vec3(1, 1, 1) * minSize;
 	box._max = osg::Vec3(1, 1, 1) * maxSize;
 }
@@ -56,11 +52,11 @@ void Reflector::frame(Entity& entity, FrameTime frameTime)
 }
 
 
-Torusifator::Torusifator(const Config& conf)
-	:BehaviorBase("torus")
+Torusifator::Torusifator(const BehaviorConf& conf)
+	:BehaviorBase(conf)
 {
-	const float minSize = conf["box"]["min"];
-	const float maxSize = conf["box"]["max"];
+	const float minSize = conf.conf["box"]["min"];
+	const float maxSize = conf.conf["box"]["max"];
 	box._min = osg::Vec3(1, 1, 1) * minSize;
 	box._max = osg::Vec3(1, 1, 1) * maxSize;
 }
@@ -91,4 +87,5 @@ void Torusifator::frame(Entity& entity, FrameTime frameTime)
 	}
 	entity.setPosition(trans);
 }
+
 

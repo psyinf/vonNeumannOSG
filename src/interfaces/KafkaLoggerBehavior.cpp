@@ -13,10 +13,11 @@ const cppkafka::Configuration config = {
 
 };
 
-entities::KafkaLogger::KafkaLogger()
-	:BehaviorBase("kafkalogger")
+entities::KafkaLogger::KafkaLogger(const BehaviorConf& conf)
+	:BehaviorBase(conf)
     , dataLogger(std::make_unique<nsDataLogger::DataLogger>([this](auto m) { this->handleMessage(std::move(m)); }, [this]() { this->flush(); }))
 {
+    const auto& channels = conf.conf["channels"];
 	producer = std::make_unique<cppkafka::BufferedProducer<std::string>>(config);
     producer->set_queue_full_notification(cppkafka::BufferedProducer<std::string>::QueueFullNotification::OncePerMessage);
     producer->set_queue_full_callback([]([[maybe_unused]] const auto& msgBuilder) { std::cerr << "Producer queue full"; });
@@ -35,11 +36,7 @@ void entities::KafkaLogger::frame(Entity& entity, FrameTime frameTime)
 	dataLogger->push(nsDataLogger::Message({ entity.getName(), std::move(errStr) }));
 }
 
-void entities::KafkaLogger::setConfiguration(const nlohmann::json& conf)
-{
-	const auto& channels = conf["channels"];
-}
- 
+
 void entities::KafkaLogger::handleMessage(nsDataLogger::Message&& msg) const
 {
 	producer->add_message(cppkafka::MessageBuilder(std::move(msg.topic)).partition(0).payload(msg.buffer));

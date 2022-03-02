@@ -1,9 +1,13 @@
 #include "Entity.h"
+#include "EntityBehaviorRegistry.h"
+#include "EntityBehaviors.h"
+#include <EntityManager.h>
 
+using namespace entities;
 
-
- entities::Entity::Entity(const std::string& name, const std::string& config)
+ Entity::Entity(const std::string& name, const std::string& config, const std::shared_ptr<EntityManager> em)
     : PositionAttitudeTransform()
+    , entityManager(em)
 {
     auto conf = nsConfig::load<EntityConf>(config);
     PositionAttitudeTransform::setName(name);
@@ -17,13 +21,15 @@
         }
         try
         {
-            auto behavior = BehaviorRegistry::get(conf.type, behaviorConf);
-
-            entityBehaviors.add(behavior);
+            auto behavior = entityManager->getBehaviorRegistry().get(conf.type, behaviorConf);
+         
+            entityBehaviors->add(behaviorConf.type, behavior);
+         
+            entityBehaviors->frame(*this, {1, 2});
         }
         catch (const std::exception& e)
         {
-            std::cerr << "Cannot add behavior: '" << behaviorConf.type << "'. Not found" << std::endl;
+            std::cerr << "Cannot add behavior to entity: '" << behaviorConf.type << "'. " << e.what() << std::endl;
         }
     }
    
@@ -31,62 +37,62 @@
     //test configuration
     if (getProperty<std::string>("faction") == "red")
     {
-        std::cout << getProperty<std::string>("faction");
+        //std::cout << getProperty<std::string>("faction");
     }
 }
 
-osg::Vec3d& entities::Entity::getVelocity()
+osg::Vec3d& Entity::getVelocity()
 {
     return velocity;
 }
 
-const osg::Vec3d& entities::Entity::getVelocity() const
+const osg::Vec3d& Entity::getVelocity() const
 {
     return velocity;
 }
 
-void entities::Entity::setVelocity(const osg::Vec3d& val)
+void Entity::setVelocity(const osg::Vec3d& val)
 {
     velocity = val;
 }
 
-osg::Vec3d& entities::Entity::getAcceleration()
+osg::Vec3d& Entity::getAcceleration()
 {
     return acceleration;
 }
 
-const osg::Vec3d& entities::Entity::getAcceleration() const
+const osg::Vec3d& Entity::getAcceleration() const
 {
     return acceleration;
 }
 
-void entities::Entity::setAcceleration(const osg::Vec3d& val)
+void Entity::setAcceleration(const osg::Vec3d& val)
 {
     acceleration = val;
 }
 
-osg::Vec3d& entities::Entity::getTarget()
+osg::Vec3d& Entity::getTarget()
 {
     return target;
 }
 
-const osg::Vec3d& entities::Entity::getTarget() const
+const osg::Vec3d& Entity::getTarget() const
 {
     return target;
 }
 
-void entities::Entity::setTarget(const osg::Vec3d& val)
+void Entity::setTarget(const osg::Vec3d& val)
 {
     target = val;
 }
 
-void entities::Entity::update(int frameNum, float delta_sec)
+void Entity::update(int frameNum, float delta_sec)
 {
-    entityBehaviors.frame(*this, {frameNum, delta_sec});
+    entityBehaviors->frame(*this, {frameNum, delta_sec});
     kinematicUpdate(delta_sec);
 }
 
-void entities::Entity::kinematicUpdate(float delta_sec)
+void Entity::kinematicUpdate(float delta_sec)
 {
     getVelocity() += getAcceleration();
     setPosition(getPosition() + getVelocity() * delta_sec);
@@ -99,12 +105,12 @@ void entities::Entity::kinematicUpdate(float delta_sec)
     setAttitude(rot);
 }
 
-std::shared_ptr<entities::BehaviorBase> entities::Entity::getBehavior(const std::string& name) const
+std::shared_ptr<BehaviorBase> Entity::getBehavior(const std::string& name) const
 {
-    return entityBehaviors.get(name);
+    return entityBehaviors->get(name);
 }
 
-void entities::Entity::processProperties(nlohmann::json& json)
+void Entity::processProperties(nlohmann::json& json)
 {
     for (auto iter = json.begin(); iter != json.end(); ++iter)
     {
