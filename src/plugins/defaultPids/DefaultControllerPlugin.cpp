@@ -19,8 +19,7 @@ extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::EntityBehaviorReg
     try
     {
         registry.registerPrototype("position", boost::factory<PositionController*>());
-        //add constructor for the module
-        //core.getModuleRegistry()->addConstructor("DISSystem", boost::factory<nsDISSystem::DISSystem*>());
+      
     }
     catch (const std::exception& e)
     {

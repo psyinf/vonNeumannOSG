@@ -21,12 +21,6 @@ class EntityBehaviorRegistry : public common::FactoryRegistry<BehaviorBaseCtor>
 {
 public:
     std::shared_ptr<BehaviorBase> get(const std::string& entity_type, const entities::BehaviorConf& conf);
-    /**
-     * add prototype of behavior
-     */
-
-    //void add(const std::string& entity_type, std::shared_ptr<BehaviorBase> behavior);
-    //void add(std::shared_ptr<BehaviorBase> behavior);
 
 protected:
     std::map<std::string, std::shared_ptr<BehaviorBase>, std::less<>> registry;

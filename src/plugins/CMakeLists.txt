@@ -1,1 +1,2 @@
 add_subdirectory(defaultPids)
+add_subdirectory(defaultScenes)
