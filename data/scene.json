@@ -9,8 +9,8 @@
 			"type": "torusificator",
 			"conf": {
 				"box": {
-					"min": -100,
-					"max": 100
+					"min": -400,
+					"max": 400
 				}
 			}
 		}

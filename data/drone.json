@@ -28,9 +28,9 @@
 	"properties": {
 		"physics" : {
 			"limits" : {
-				"acceleration" : 30
+				"acceleration" : 40
 			}
-		}
+		},
 		"faction": "red",
 		"bla": "blub"
 		

@@ -24,7 +24,7 @@ void SimpleScene::load(const std::string& fileName)
         sceneBehaviorInstances.emplace_back(std::make_pair(scene_behavior.type, instance));
     }
 
-
+    // TODO: configurable placers
     std::default_random_engine generator;
     std::normal_distribution   vel_distribution(0.0, 3.0);
     std::normal_distribution   pos_distribution(0.0, 100.0);

@@ -1,15 +1,18 @@
 #include "PositionController.h"
 
 #include <Entity.h>
+#include <MathHelpers.h>
 
 using namespace entities;
 
+// TODO: candidate for helper
+
 void PositionController::frame(Entity& entity, FrameTime frameTime)
 {
-    if (0 == frameTime.frame)
+    if (1 == frameTime.frame)
     {
-        // configure
-        // entity.getProperty("physics/limits/acceleration");
+        pidController.setMaxValue(common::makeVec(entity.getProperty<double>("physics.limits.acceleration")));
+        pidController.setMinValue(-common::makeVec(entity.getProperty<double>("physics.limits.acceleration")));
     }
     entity.getAcceleration() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime.delta);
 }

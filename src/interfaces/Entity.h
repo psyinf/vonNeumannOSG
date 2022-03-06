@@ -3,10 +3,11 @@
 #include "EntityUpdateCallback.h"
 #include "JsonConfigCache.h"
 
+#include <boost/tokenizer.hpp>
+
 #include <osg/PositionAttitudeTransform>
 #include <osg/Vec3d>
 #include <osgDB/ReadFile>
-
 
 namespace entities
 {
@@ -56,17 +57,28 @@ private:
     osg::Vec3d velocity;
     osg::Vec3d acceleration;
 
-    std::unique_ptr<EntityBehaviors>                 entityBehaviors = std::make_unique<EntityBehaviors>();
-    std::unordered_map<PropertyName, nlohmann::json> entityProperties;
-    std::shared_ptr<entities::EntityManager>         entityManager;
+    std::unique_ptr<EntityBehaviors> entityBehaviors = std::make_unique<EntityBehaviors>();
+    // std::unordered_map<PropertyName, nlohmann::json> entityProperties;
+    nlohmann::json entityProperties;
+    std::shared_ptr<entities::EntityManager>
+        entityManager;
 };
 
 template <class T>
 T entities::Entity::getProperty(const std::string& key)
 {
-    // TODO: split and cascade key to access sub-properties
-    auto json_value = entityProperties.at(key);
-    return json_value.get<T>();
+    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+
+    boost::char_separator<char> sep{"/."};
+    tokenizer                   tok{key, sep};
+
+    nlohmann::json res = entityProperties;
+    for (auto t : tok)
+    {
+        res = res.at(t);
+    }
+
+    return res.get<T>();
 }
 
 } // namespace entities

@@ -118,8 +118,10 @@ void Entity::addBehavior(const std::string& name, std::shared_ptr<BehaviorBase> 
 
 void Entity::processProperties(nlohmann::json& json)
 {
+    /*
     for (auto iter = json.begin(); iter != json.end(); ++iter)
     {
         entityProperties.try_emplace(iter.key(), iter.value());
-    }
+    }*/
+    entityProperties = json;
 }
