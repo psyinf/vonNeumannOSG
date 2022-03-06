@@ -1,5 +1,6 @@
 #pragma once
 #include "EntityBehavior.h"
+
 #include <memory>
 #include <unordered_map>
 

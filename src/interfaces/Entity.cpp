@@ -1,11 +1,13 @@
 #include "Entity.h"
+
 #include "EntityBehaviorRegistry.h"
 #include "EntityBehaviors.h"
+
 #include <EntityManager.h>
 
 using namespace entities;
 
- Entity::Entity(const std::string& name, const std::string& config, const std::shared_ptr<EntityManager> em)
+Entity::Entity(const std::string& name, const std::string& config, const std::shared_ptr<EntityManager> em)
     : PositionAttitudeTransform()
     , entityManager(em)
 {
@@ -22,9 +24,9 @@ using namespace entities;
         try
         {
             auto behavior = entityManager->getBehaviorRegistry().get(conf.type, behaviorConf);
-         
+
             entityBehaviors->add(behaviorConf.type, behavior);
-         
+
             entityBehaviors->frame(*this, {1, 2});
         }
         catch (const std::exception& e)
@@ -32,12 +34,12 @@ using namespace entities;
             std::cerr << "Cannot add behavior to entity: '" << behaviorConf.type << "'. " << e.what() << std::endl;
         }
     }
-   
+
     addUpdateCallback(new EntityUpdateCallback());
-    //test configuration
+    // test configuration
     if (getProperty<std::string>("faction") == "red")
     {
-        //std::cout << getProperty<std::string>("faction");
+        // std::cout << getProperty<std::string>("faction");
     }
 }
 
@@ -108,6 +110,10 @@ void Entity::kinematicUpdate(float delta_sec)
 std::shared_ptr<BehaviorBase> Entity::getBehavior(const std::string& name) const
 {
     return entityBehaviors->get(name);
+}
+void Entity::addBehavior(const std::string& name, std::shared_ptr<BehaviorBase> behavior)
+{
+    entityBehaviors->add(name, behavior);
 }
 
 void Entity::processProperties(nlohmann::json& json)

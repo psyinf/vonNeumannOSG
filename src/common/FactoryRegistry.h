@@ -1,17 +1,31 @@
 #pragma once
+#include <FlagSet.h>
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 #include <map>
 #include <ranges>
 #include <string>
 #include <vector>
-#include <iostream>
 
 namespace common
 {
 template <typename CtorType, typename KeyType = std::string>
 class FactoryRegistry
 {
+private:
+    enum Flags_
+    {
+        NONE,
+        PER_SCENE, // basically a singleton
+    };
+
+public:
+    using Flags = FlagSet<Flags_>;
+    struct RegisteredFactory
+    {
+    };
+
 public:
     FactoryRegistry()  = default;
     ~FactoryRegistry() = default;
@@ -62,7 +76,7 @@ public:
     }
 
 private:
-    std::map < KeyType, CtorType, std::less<>> registeredConstructors; ///< Mapping of key to constructors
+    std::map<KeyType, CtorType, std::less<>> registeredConstructors; ///< Mapping of key to constructors
 };
 
 } // namespace common

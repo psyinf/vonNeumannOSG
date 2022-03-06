@@ -8,7 +8,7 @@ namespace entities
 class Reflector : public BehaviorBase
 {
 public:
-    explicit Reflector(const BehaviorConf& conf);
+    explicit Reflector(const nsConfig::BehaviorConf& conf);
     osg::BoundingBox box;
     void             frame(Entity& entity, FrameTime frameTime) override;
 };
@@ -16,7 +16,7 @@ public:
 class Torusifator : public BehaviorBase
 {
 public:
-    explicit Torusifator(const BehaviorConf& conf);
+    explicit Torusifator(const nsConfig::BehaviorConf& conf);
     osg::BoundingBox box;
     void             frame(Entity& entity, FrameTime frameTime) override;
 };

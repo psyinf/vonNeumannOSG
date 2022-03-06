@@ -1,21 +1,17 @@
 #pragma once
+#include <BehaviorConf.h>
 #include <nlohmann/json.hpp>
+namespace entities
+{
 
-namespace entities {
-struct BehaviorConf{
-	bool enabled = true;
-	std::string type;
-	nlohmann::json conf;
+
+struct EntityConf
+{
+    std::string                         type;
+    std::vector<std::string>            models;
+    std::vector<nsConfig::BehaviorConf> behaviors;
+    nlohmann::json                      properties;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(BehaviorConf, enabled, type, conf)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityConf, type, models, behaviors, properties)
 
-struct EntityConf {
-	std::string					type;
-	std::vector<std::string>	models;
-	std::vector<BehaviorConf>	behaviors;
-    nlohmann::json				properties;
-
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityConf,type, models, behaviors, properties)
-
-}
+} // namespace entities

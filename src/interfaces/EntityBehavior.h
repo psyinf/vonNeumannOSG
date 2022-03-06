@@ -5,6 +5,7 @@
 
 #include <osg/BoundingBox>
 
+#include <BehaviorConf.h>
 #include <iostream>
 #include <nlohmann/json_fwd.hpp>
 
@@ -28,9 +29,13 @@ using Config = nlohmann::json;
 class BehaviorBase
 {
 public:
-    explicit BehaviorBase(const BehaviorConf& conf){};
+    explicit BehaviorBase(const nsConfig::BehaviorConf& conf)
+        : conf(conf){};
 
     virtual void frame(Entity& entity, FrameTime frameTime) = 0;
+
+private:
+    nsConfig::BehaviorConf conf;
 };
 
 

@@ -19,8 +19,8 @@ extern "C" SCENE_BEHAVIOR_PLUGIN void registerPlugin(entities::EntityBehaviorReg
 {
     try
     {
-        registry.registerPrototype("position", boost::factory<entities::Reflector*>());
-        registry.registerPrototype("position", boost::factory<entities::Torusifator*>());
+        registry.registerPrototype("reflector", boost::factory<entities::Reflector*>());
+        registry.registerPrototype("torusificator", boost::factory<entities::Torusifator*>());
     }
     catch (const std::exception& e)
     {

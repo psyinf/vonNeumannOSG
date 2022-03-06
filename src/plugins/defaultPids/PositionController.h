@@ -6,7 +6,7 @@
 class PositionController : public entities::BehaviorBase
 {
 public:
-    explicit PositionController(const entities::BehaviorConf& conf);
+    explicit PositionController(const nsConfig::BehaviorConf& conf);
 
     ~PositionController() = default;
 

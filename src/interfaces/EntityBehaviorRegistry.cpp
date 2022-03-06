@@ -1,17 +1,18 @@
 #include "EntityBehaviorRegistry.h"
-#include "EntityConf.h"
+
 #include "EntityBehavior.h"
+#include "EntityConf.h"
 
 #include <iostream>
 
 using namespace entities;
 
 std::shared_ptr<BehaviorBase>
-EntityBehaviorRegistry::get(const std::string& entity_type, const BehaviorConf& conf)
+EntityBehaviorRegistry::get(const std::string& entity_type, const nsConfig::BehaviorConf& conf)
 {
     auto ctor = getPrototype(conf.type);
     return std::unique_ptr<BehaviorBase>(ctor(conf));
- //   return std::make_shared<BehaviorBase>(getPrototype(entity_type)(conf));
+    //   return std::make_shared<BehaviorBase>(getPrototype(entity_type)(conf));
     /* --
     std::shared_ptr<BehaviorBase> instance;
     if (registry.contains(entity_type + "_" + conf.type))
