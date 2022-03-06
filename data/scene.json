@@ -2,5 +2,17 @@
 	"name": "Default",
 	"defaultEntity": "data/drone.json",
 	"numDrones": 1000,
-	"sceneSize": 1000.0
+	"sceneSize": 1000.0,
+	"sceneBehaviors": [
+		{
+			"enabled": true,
+			"type": "torusificator",
+			"conf": {
+				"box": {
+					"min": -100,
+					"max": 100
+				}
+			}
+		}
+	]
 }

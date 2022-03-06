@@ -26,7 +26,13 @@
 		}
 	],
 	"properties": {
+		"physics" : {
+			"limits" : {
+				"acceleration" : 30
+			}
+		}
 		"faction": "red",
 		"bla": "blub"
+		
 	}
 }
