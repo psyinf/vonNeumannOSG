@@ -64,6 +64,7 @@ private:
 template <class T>
 T entities::Entity::getProperty(const std::string& key)
 {
+    // TODO: split and cascade key to access sub-properties
     auto json_value = entityProperties.at(key);
     return json_value.get<T>();
 }

@@ -8,23 +8,12 @@
 #include <string>
 #include <vector>
 
+
 namespace common
 {
 template <typename CtorType, typename KeyType = std::string>
 class FactoryRegistry
 {
-private:
-    enum Flags_
-    {
-        NONE,
-        PER_SCENE, // basically a singleton
-    };
-
-public:
-    using Flags = FlagSet<Flags_>;
-    struct RegisteredFactory
-    {
-    };
 
 public:
     FactoryRegistry()  = default;
@@ -67,12 +56,9 @@ public:
      * \brief	Gets registered types as a sorted list
      * \return	The registered types.
      */
-    std::vector<KeyType> getRegisteredTypes() const
+    auto getRegisteredTypes() const
     {
-        // TODO: use pipes
-        std::vector<KeyType> reg_types;
-        std::ranges::transform(registeredConstructors, std::back_inserter(reg_types), [](const auto& pair) { return pair.first; });
-        return reg_types;
+        return registeredConstructors | std::ranges::views::keys;
     }
 
 private:

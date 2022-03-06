@@ -6,6 +6,11 @@ using namespace entities;
 
 void PositionController::frame(Entity& entity, FrameTime frameTime)
 {
+    if (0 == frameTime.frame)
+    {
+        // configure
+        // entity.getProperty("physics/limits/acceleration");
+    }
     entity.getAcceleration() = pidController.calculate(entity.getTarget(), entity.getPosition(), frameTime.delta);
 }
 

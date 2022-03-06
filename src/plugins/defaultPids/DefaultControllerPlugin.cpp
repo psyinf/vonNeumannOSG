@@ -1,10 +1,11 @@
-#include <PluginBase.h>
 #include "PositionController.h"
-#include <EntityBehavior.h>
-#include <EntityManager.h>
-#include <EntityBehaviorRegistry.h>
 
 #include <boost/functional/factory.hpp>
+
+#include <EntityBehavior.h>
+#include <EntityBehaviorRegistry.h>
+#include <EntityManager.h>
+#include <PluginBase.h>
 
 
 #define CONTROLLER_PLUGIN_API _declspec(dllexport)
@@ -19,12 +20,10 @@ extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::EntityBehaviorReg
     try
     {
         registry.registerPrototype("position", boost::factory<PositionController*>());
-      
     }
     catch (const std::exception& e)
     {
-        //TODO: log
-        //throw;
-        //core.logError(std::string("Unable to register DISSystem :") + std::string(e.what()), __FUNCTION__);
+        // TODO: log
+        // throw;
     }
 }

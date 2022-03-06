@@ -10,7 +10,8 @@ namespace common
 {
 struct PluginInfo
 {
-    std::string  name;
+    std::string name;
+    std::string version;
     auto        operator<=>(const PluginInfo&) const = default;
 };
 
@@ -28,16 +29,16 @@ public:
     PLUGIN_API void getInfo(PluginInfo& info) const;
     void            reportMissingInterface(const std::string& path, const std::string& name) const;
 
-    DLLHandle getHandle() const {
+    DLLHandle getHandle() const
+    {
         return dllHandle;
     }
 
 private:
-    DLLHandle   dllHandle;
-    std::string path;
+    DLLHandle                        dllHandle;
+    std::string                      path;
     std::function<void(PluginInfo&)> getInfoFunction;
-
 };
 
 
-} //namespace 
+} // namespace common
