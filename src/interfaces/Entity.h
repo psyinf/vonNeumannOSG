@@ -58,7 +58,7 @@ private:
     osg::Vec3d acceleration;
 
     std::unique_ptr<EntityBehaviors> entityBehaviors = std::make_unique<EntityBehaviors>();
-    // std::unordered_map<PropertyName, nlohmann::json> entityProperties;
+
     nlohmann::json entityProperties;
     std::shared_ptr<entities::EntityManager>
         entityManager;
