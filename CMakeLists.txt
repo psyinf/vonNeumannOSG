@@ -46,3 +46,12 @@ add_subdirectory(src/plugins)
 add_subdirectory(src/interfaces)
 
 add_custom_target( conan-install ALL COMMAND conan install ${CMAKE_SOURCE_DIR}/conanfile.txt -if ${CMAKE_INSTALL_PREFIX} DEPENDS install)       
+
+#for now
+install(DIRECTORY
+		data/
+	DESTINATION
+		${CMAKE_INSTALL_BINDIR}/data
+	COMPONENT
+		${RUNTIME_COMPONENT}
+)
