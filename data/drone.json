@@ -28,7 +28,8 @@
 	"properties": {
 		"physics" : {
 			"limits" : {
-				"acceleration" : 40
+				"acceleration" : 40,
+				"rotation" : 1
 			}
 		},
 		"faction": "red",
