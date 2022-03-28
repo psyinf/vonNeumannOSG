@@ -8,21 +8,9 @@ add_library(${MODULE_NAME} MODULE
 
 target_link_libraries(${MODULE_NAME} PRIVATE
 	PUBLIC
-		#Boost::boost
 		${PROJECT_NAMESPACE}::common
 		${PROJECT_NAMESPACE}::interfaces
-		#${PROJECT_NAMESPACE}::BallisticSystem
-		#${PROJECT_NAMESPACE}::EngineCommon
-		#${PROJECT_NAMESPACE}::EngineInterface
-
 	PRIVATE
-		#Boost::program_options
-		#Lua
-
-	
-
-		#${PROJECT_NAMESPACE}::EntityManager
-		#${PROJECT_NAMESPACE}::GenericBallisticLib
 )
 
 target_compile_features(${MODULE_NAME}
@@ -41,4 +29,3 @@ install(TARGETS ${MODULE_NAME}
 		DESTINATION ${CMAKE_INSTALL_ARCHIVEDIR}/plugins
 		COMPONENT ${DEVELOP_COMPONENT}
 )
-#install_pdbs(TARGET ${MODULE_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR}/plugins)

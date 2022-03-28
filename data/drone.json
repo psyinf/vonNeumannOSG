@@ -1,7 +1,7 @@
 {
 	"type": "drone",
 	"models": [
-		"data/pyra_1x1x3.obj"
+		"data/models/pyra_1x1x3.obj"
 	],
 	"behaviors": [
 		{
@@ -9,7 +9,18 @@
 			"type": "position",
 			"conf": {
 				"pid": [
-					0.17,
+					0.007,
+					0.1,
+					0.5
+				]
+			}
+		},
+		{
+			"enabled": true,
+			"type": "orientation",
+			"conf": {
+				"pid": [
+					0.37,
 					0.1,
 					0.5
 				]

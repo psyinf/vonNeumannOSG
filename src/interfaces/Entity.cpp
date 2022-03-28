@@ -98,13 +98,6 @@ void Entity::kinematicUpdate(float delta_sec)
 {
     getVelocity() += getAcceleration();
     setPosition(getPosition() + getVelocity() * delta_sec);
-
-    // TODO: turn-rate and acceleration along axis
-    osg::Vec3d unitVelocity = velocity;
-    unitVelocity.normalize();
-    osg::Quat rot;
-    rot.makeRotate(osg::Vec3d(0, 0, 1), unitVelocity);
-    setAttitude(rot);
 }
 
 std::shared_ptr<BehaviorBase> Entity::getBehavior(const std::string& name) const

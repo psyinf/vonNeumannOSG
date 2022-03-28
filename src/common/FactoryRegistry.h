@@ -28,7 +28,7 @@ public:
     virtual bool registerPrototype(KeyType key, CtorType&& constructor_function)
     {
         std::cout << "Registered " << key << " as plugin" << std::endl;
-        auto ret = registeredConstructors.emplace(std::move(key), std::move(constructor_function));
+        auto ret = registeredConstructors.try_emplace(std::move(key), std::move(constructor_function));
         return ret.second;
     }
 

@@ -50,6 +50,9 @@ public:
     template <class T>
     T getProperty(const std::string& key);
 
+    template <class T>
+    T getProperty(const std::string& key, T defaultValue);
+
     void processProperties(nlohmann::json& json);
 
 private:
@@ -79,6 +82,19 @@ T entities::Entity::getProperty(const std::string& key)
     }
 
     return res.get<T>();
+}
+
+template <class T>
+T entities::Entity::getProperty(const std::string& key, T defaultValue)
+{
+    try
+    {
+        return getProperty(key);
+    }
+    catch (std::exception* e)
+    {
+        return defaultValue;
+    }
 }
 
 } // namespace entities

@@ -12,8 +12,9 @@ private:
     osg::Vec3d maxValue = common::makeVec(std::numeric_limits<double>::max());
     osg::Vec3d preError;
     osg::Vec3d integralError;
-    bool       reset   = true;
-    bool       angular = false;
+
+    bool reset   = true;
+    bool angular = false;
 
 public:
     void setPid(const osg::Vec3d& value)
@@ -41,6 +42,10 @@ public:
         maxValue = value;
     }
 
+    void setAngluar(bool val)
+    {
+        angular = val;
+    }
     Vec3dPid(osg::Vec3d pid, osg::Vec3d minValue, osg::Vec3d maxValue)
         : pid(pid)
         , minValue(minValue)
@@ -61,14 +66,14 @@ public:
         {
             return currentValue;
         }
-        const auto error = currentValue - setPoint;
+        auto error = currentValue - setPoint;
 
         if (angular)
         {
-            /* TODO: adapt to 3d
-            error = (error < std::numbers::pi) ? error + 2.0 * std::numbers::pi : error;
-            error = (error > std::numbers::pi) ? error - 2.0 * std::numbers::pi : error;
-            */
+            auto flipOverPos = [](auto error) { return (error > std::numbers::pi) ? error - 2.0 * std::numbers::pi : error; };
+            auto flipOverNeg = [](auto error) { return (error < std::numbers::pi) ? error + 2.0 * std::numbers::pi : error; };
+            error            = osg::Vec3d(flipOverPos(error[0]), flipOverPos(error[1]), flipOverPos(error[2]));
+            error            = osg::Vec3d(flipOverNeg(error[0]), flipOverNeg(error[1]), flipOverNeg(error[2]));
         }
 
         integralError              = (reset) ? error : integralError;

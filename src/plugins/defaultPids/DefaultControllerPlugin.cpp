@@ -1,4 +1,5 @@
-#include "PositionController.h"
+#include "controllers/orientation/OrientationController.h"
+#include "controllers/position/PositionController.h"
 
 #include <boost/functional/factory.hpp>
 
@@ -20,6 +21,7 @@ extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::EntityBehaviorReg
     try
     {
         registry.registerPrototype("position", boost::factory<PositionController*>());
+        registry.registerPrototype("orientation", boost::factory<OrientationController*>());
     }
     catch (const std::exception& e)
     {
