@@ -1,7 +1,7 @@
 {
 	"name": "Default",
 	"defaultEntity": "data/drone.json",
-	"numDrones": 1000,
+	"numDrones": 10,
 	"sceneSize": 1000.0,
 	"sceneBehaviors": [
 		{
@@ -13,6 +13,14 @@
 					"max": 400
 				}
 			}
+		}
+	],
+	"markers" : [
+		{
+			"enabled" : true,
+			"model" : "data/models/axes.osgt",
+			"pos" : [1110.0,0.0,0.0],
+			"scale" : [10,10,20]
 		}
 	]
 }

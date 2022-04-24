@@ -13,7 +13,10 @@ Entity::Entity(const std::string& name, const std::string& config, const std::sh
 {
     auto conf = nsConfig::load<EntityConf>(config);
     PositionAttitudeTransform::setName(name);
+    // TODO: add offset matrix per model
+
     PositionAttitudeTransform::addChild(osgDB::readNodeFiles(conf.models));
+
     processProperties(conf.properties);
     for (const auto& behaviorConf : conf.behaviors)
     {
@@ -111,10 +114,5 @@ void Entity::addBehavior(const std::string& name, std::shared_ptr<BehaviorBase> 
 
 void Entity::processProperties(nlohmann::json& json)
 {
-    /*
-    for (auto iter = json.begin(); iter != json.end(); ++iter)
-    {
-        entityProperties.try_emplace(iter.key(), iter.value());
-    }*/
     entityProperties = json;
 }

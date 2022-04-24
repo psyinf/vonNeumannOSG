@@ -20,8 +20,9 @@ class Entity : public osg::PositionAttitudeTransform
     using PropertyName = std::string;
 
 public:
-    Entity()  = default;
-    ~Entity() = default;
+    Entity()                                  = default;
+    ~Entity()                                 = default;
+    static inline osg::Vec3d forwardDirection = osg::Vec3d(0, 0, -1);
 
     Entity(const std::string& name, const std::string& config, std::shared_ptr<EntityManager> em);
 

@@ -8,8 +8,9 @@
 
 #include <JsonConfigCache.h>
 
-#include <random>
+#include <osgDb/ReadFile>
 
+#include <random>
 
 void SimpleScene::load(const std::string& fileName)
 {
@@ -24,6 +25,21 @@ void SimpleScene::load(const std::string& fileName)
         sceneBehaviorInstances.emplace_back(std::make_pair(scene_behavior.type, instance));
     }
 
+    for (auto marker : scene.markers)
+    {
+        if (!marker.enabled)
+        {
+            continue;
+        }
+        auto model = osgDB::readNodeFile(marker.model);
+        auto pat   = new osg::PositionAttitudeTransform();
+        pat->setPosition(marker.pos);
+        pat->setScale(marker.scale);
+        pat->addChild(model);
+        // TODO: re-normalize normals after scale?
+        root->addChild(pat);
+    }
+
     // TODO: configurable placers
     std::default_random_engine generator;
     std::normal_distribution   vel_distribution(0.0, 3.0);
@@ -32,20 +48,20 @@ void SimpleScene::load(const std::string& fileName)
     osg::BoundingSphere bounds;
     for (size_t i = scene.numDrones; i-- > 0;)
     {
-        osg::ref_ptr<entities::Entity> model = new entities::Entity(std::format("drone{}", i), scene.defaultEntity, entityManager);
+        osg::ref_ptr<entities::Entity> entity = new entities::Entity(std::format("drone{}", i), scene.defaultEntity, entityManager);
         // add global behaviors
         // TODO: add based on configuration of entity
-        std::ranges::for_each(sceneBehaviorInstances, [&model](auto inst) { model->addBehavior(inst.first, inst.second); });
+        std::ranges::for_each(sceneBehaviorInstances, [&entity](auto inst) { entity->addBehavior(inst.first, inst.second); });
 
         if (bounds.radius() < 0)
         {
-            bounds = model->getBound();
+            bounds = entity->getBound();
         }
         osg::Matrix mat;
 
-        model->setPosition(osg::Vec3d(pos_distribution(generator), pos_distribution(generator), pos_distribution(generator)));
-        model->setVelocity(osg::Vec3d(vel_distribution(generator) * bounds.radius(), vel_distribution(generator) * bounds.radius(), vel_distribution(generator) * bounds.radius()));
-        root->addChild(model);
+        entity->setPosition(osg::Vec3d(pos_distribution(generator), pos_distribution(generator), pos_distribution(generator)));
+        entity->setVelocity(osg::Vec3d(vel_distribution(generator) * bounds.radius(), vel_distribution(generator) * bounds.radius(), vel_distribution(generator) * bounds.radius()));
+        root->addChild(entity);
     }
 }
 

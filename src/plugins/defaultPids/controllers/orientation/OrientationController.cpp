@@ -27,7 +27,7 @@ void OrientationController::frame(Entity& entity, FrameTime frameTime)
     {
         osg::Quat targetRot;
 
-        targetRot.makeRotate(osg::Vec3d(0, 0, -1), targetDir);
+        targetRot.makeRotate(Entity::forwardDirection, targetDir);
 
 
         osg::Quat currentRot = entity.getAttitude();

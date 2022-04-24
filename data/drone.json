@@ -1,12 +1,13 @@
 {
 	"type": "drone",
 	"models": [
-		"data/models/pyra_1x1x3.obj"
+		"data/models/pyra_1x1x3.obj",
+		"data/models/axes.osgt"
 	],
 	"behaviors": [
 		{
 			"enabled": true,
-			"type": "position",
+			"type": "goto",
 			"conf": {
 				"pid": [
 					0.007,
