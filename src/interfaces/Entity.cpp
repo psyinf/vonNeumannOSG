@@ -44,6 +44,14 @@ Entity::Entity(const std::string& name, const std::string& config, const std::sh
             std::cerr << "Cannot add behavior to entity: '" << behaviorConf.type << "'. " << e.what() << std::endl;
         }
     }
+    for (auto& gizmo : conf.gizmos)
+    {
+        auto model = osgDB::readNodeFile(gizmo.model);
+        auto pat   = new osg::PositionAttitudeTransform;
+        addChild(pat);
+        pat->addChild(model);
+        gizmoModelIndices.emplace(gizmo.type, getNumChildren() - 1);
+    }
 
     addUpdateCallback(new EntityUpdateCallback());
     // test configuration
@@ -122,4 +130,22 @@ void Entity::addBehavior(const std::string& name, std::shared_ptr<BehaviorBase> 
 void Entity::processProperties(const nlohmann::json& json)
 {
     entityProperties = json;
+}
+
+void Entity::updateGizmos()
+{
+    for (const auto& gizmo : gizmoModelIndices)
+    {
+        if (gizmo.first == "velocity")
+        {
+            auto      pat = reinterpret_cast<osg::PositionAttitudeTransform*>(getChild(gizmo.second));
+            osg::Quat q;
+            // TODO: make rotation absolute
+            q.makeRotate(Entity::forwardDirection, Entity::getVelocity());
+            // pat->setReferenceFrame(osg::Transform::ABSOLUTE_RF_INHERIT_VIEWPOINT);
+            pat->setAttitude(q);
+
+            pat->setScale(osg::Vec3d(10, 10, 25));
+        }
+    }
 }

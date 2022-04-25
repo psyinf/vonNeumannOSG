@@ -19,6 +19,8 @@ void EntityUpdateCallback::operator()(osg::Node* node, osg::NodeVisitor* nv)
         entity->update(nv->getFrameStamp()->getFrameNumber(), time_passed_sec);
 
         lastFrame = *nv->getFrameStamp();
+
+        entity->updateGizmos();
     }
     else
     {

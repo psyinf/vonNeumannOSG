@@ -16,7 +16,13 @@
 				}
 		}
 	],
-	
+	"gizmos" : [
+	    {
+			"type": "velocity",
+			"model" : "data/models/axes.osgt" 
+		}
+
+	],
 	"behaviors": [
 		{
 			"enabled": true,
