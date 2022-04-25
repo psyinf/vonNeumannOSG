@@ -1,9 +1,22 @@
 {
 	"type": "drone",
 	"models": [
-		"data/models/pyra_1x1x3.obj",
-		"data/models/axes.osgt"
+		{
+		"model" : "data/models/pyra_1x1x3.obj",
+		"pat": 	{
+				"pos" : [0.0,0.0,0.0],
+				"scale" : [1,1,1]
+				}
+		},
+		{
+		"model":"data/models/axes.osgt",
+		"pat": 	{
+				"pos" : [0.0,0.0,0.0],
+				"scale" : [1,1,1]
+				}
+		}
 	],
+	
 	"behaviors": [
 		{
 			"enabled": true,

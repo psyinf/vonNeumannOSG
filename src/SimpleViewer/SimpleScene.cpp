@@ -19,13 +19,13 @@ void SimpleScene::load(const std::string& fileName)
 
     // load behaviors from config
     std::vector<std::pair<std::string, std::shared_ptr<entities::BehaviorBase>>> sceneBehaviorInstances;
-    for (auto scene_behavior : scene.sceneBehaviors)
+    for (auto& scene_behavior : scene.sceneBehaviors)
     {
         auto instance = entityManager->getBehaviorRegistry().get(scene_behavior.type, scene_behavior);
         sceneBehaviorInstances.emplace_back(std::make_pair(scene_behavior.type, instance));
     }
 
-    for (auto marker : scene.markers)
+    for (auto& marker : scene.markers)
     {
         if (!marker.enabled)
         {
@@ -33,6 +33,7 @@ void SimpleScene::load(const std::string& fileName)
         }
         auto model = osgDB::readNodeFile(marker.model);
         auto pat   = new osg::PositionAttitudeTransform();
+
         nsConfig::PositionAttitudeConf::from(pat, marker.pat);
 
         pat->addChild(model);

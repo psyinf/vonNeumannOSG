@@ -54,7 +54,7 @@ public:
     template <class T>
     T getProperty(const std::string& key, T defaultValue);
 
-    void processProperties(nlohmann::json& json);
+    void processProperties(const nlohmann::json& json);
 
 private:
     osg::Vec3d target;
@@ -71,7 +71,7 @@ private:
 template <class T>
 T entities::Entity::getProperty(const std::string& key)
 {
-    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+    using tokenizer = boost::tokenizer<boost::char_separator<char>>;
 
     boost::char_separator<char> sep{"/."};
     tokenizer                   tok{key, sep};

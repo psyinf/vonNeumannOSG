@@ -8,9 +8,9 @@ namespace nsConfig
 {
 struct PositionAttitudeConf
 {
-    osg::Vec3d  pos;
-    osg::Vec3d  scale;
-    static void from(osg::PositionAttitudeTransform* pat, PositionAttitudeConf patConf)
+    osg::Vec3d         pos;
+    osg::Vec3d         scale;
+    inline static void from(osg::PositionAttitudeTransform* pat, PositionAttitudeConf patConf)
     {
         pat->setPosition(patConf.pos);
         pat->setScale(patConf.scale);
