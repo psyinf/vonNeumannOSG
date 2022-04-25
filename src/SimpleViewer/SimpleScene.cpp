@@ -33,8 +33,8 @@ void SimpleScene::load(const std::string& fileName)
         }
         auto model = osgDB::readNodeFile(marker.model);
         auto pat   = new osg::PositionAttitudeTransform();
-        pat->setPosition(marker.pos);
-        pat->setScale(marker.scale);
+        nsConfig::PositionAttitudeConf::from(pat, marker.pat);
+
         pat->addChild(model);
         // TODO: re-normalize normals after scale?
         root->addChild(pat);
