@@ -49,8 +49,9 @@ Entity::Entity(const std::string& name, const std::string& config, const std::sh
         auto model = osgDB::readNodeFile(gizmo.model);
         auto pat   = new osg::PositionAttitudeTransform;
         addChild(pat);
+
         pat->addChild(model);
-        gizmoModelIndices.emplace(gizmo.type, getNumChildren() - 1);
+        gizmoModelIndices.emplace(gizmo.type, pat);
     }
 
     addUpdateCallback(new EntityUpdateCallback());
@@ -132,19 +133,19 @@ void Entity::processProperties(const nlohmann::json& json)
     entityProperties = json;
 }
 
-void Entity::updateGizmos()
+void Entity::updateGizmos(osg::NodeVisitor* nv)
 {
     for (const auto& gizmo : gizmoModelIndices)
     {
         if (gizmo.first == "velocity")
         {
-            auto      pat = reinterpret_cast<osg::PositionAttitudeTransform*>(getChild(gizmo.second));
+            auto      pat = reinterpret_cast<osg::PositionAttitudeTransform*>(gizmo.second.get());
             osg::Quat q;
-            // TODO: make rotation absolute
+            auto      current = getAttitude();
             q.makeRotate(Entity::forwardDirection, Entity::getVelocity());
             // pat->setReferenceFrame(osg::Transform::ABSOLUTE_RF_INHERIT_VIEWPOINT);
-            pat->setAttitude(q);
-
+            pat->setAttitude(q * current.inverse());
+            // pat->setPosition();
             pat->setScale(osg::Vec3d(10, 10, 25));
         }
     }

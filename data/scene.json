@@ -20,7 +20,7 @@
 			"enabled" : true,
 			"model" : "data/models/axes.osgt",
 			"pat": {
-				"pos" : [10.0,0.0,0.0],
+				"pos" : [0.0,0.0,0.0],
 				"scale" : [100,100,100]
 			}
 		}

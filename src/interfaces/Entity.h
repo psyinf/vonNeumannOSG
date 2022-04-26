@@ -56,15 +56,15 @@ public:
 
     void processProperties(const nlohmann::json& json);
 
-    void updateGizmos();
+    void updateGizmos(osg::NodeVisitor* nv);
 
 private:
     osg::Vec3d target;
     osg::Vec3d velocity;
     osg::Vec3d acceleration;
 
-    std::unique_ptr<EntityBehaviors>     entityBehaviors = std::make_unique<EntityBehaviors>();
-    std::unordered_map<std::string, int> gizmoModelIndices;
+    std::unique_ptr<EntityBehaviors>                         entityBehaviors = std::make_unique<EntityBehaviors>();
+    std::unordered_map<std::string, osg::ref_ptr<osg::Node>> gizmoModelIndices;
 
     nlohmann::json entityProperties;
     std::shared_ptr<entities::EntityManager>
@@ -80,7 +80,7 @@ T entities::Entity::getProperty(const std::string& key)
     tokenizer                   tok{key, sep};
 
     nlohmann::json res = entityProperties;
-    for (auto t : tok)
+    for (auto& t : tok)
     {
         res = res.at(t);
     }
