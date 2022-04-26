@@ -109,7 +109,8 @@ public:
                 factor /= 1.1;
                 return true;
                 break;
-            default:
+            case osgGA::GUIEventAdapter::KEY_Return:
+                paused = !paused;
                 break;
             }
 
@@ -122,11 +123,12 @@ public:
 
     float getFactor()
     {
-        return factor;
+        return paused ? 0.0 : factor;
     }
 
 protected:
     float factor = 1.0;
+    bool  paused = true;
 };
 
 int main(int argc, char** argv)
