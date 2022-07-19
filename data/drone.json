@@ -19,7 +19,11 @@
 	"gizmos" : [
 	    {
 			"type": "velocity",
-			"model" : "data/models/axes.osgt" 
+			"model" : "data/models/axes.osgt",
+			"pat": 	{
+				"pos" : [0.0,0.0,0.0],
+				"scale" : [1,1,1]
+				}
 		}
 
 	],

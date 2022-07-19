@@ -143,9 +143,7 @@ void Entity::updateGizmos(osg::NodeVisitor* nv)
             osg::Quat q;
             auto      current = getAttitude();
             q.makeRotate(Entity::forwardDirection, Entity::getVelocity());
-            // pat->setReferenceFrame(osg::Transform::ABSOLUTE_RF_INHERIT_VIEWPOINT);
             pat->setAttitude(q * current.inverse());
-            // pat->setPosition();
             pat->setScale(osg::Vec3d(10, 10, 25));
         }
     }

@@ -1,14 +1,3 @@
-/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2010 Robert Osfield
- *
- * This application is open source and may be redistributed and/or modified
- * freely and without restriction, both in commercial and non commercial applications,
- * as long as this copyright notice is maintained.
- *
- * This application is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- */
-
 #include "SimpleScene.h"
 
 #include <osg/CoordinateSystemNode>
@@ -100,12 +89,10 @@ public:
             switch (ea.getKey())
             {
             case '.':
-                // case 'W':
                 factor *= 1.1;
                 return true;
                 break;
             case ',':
-                // case 'S':
                 factor /= 1.1;
                 return true;
                 break;
@@ -150,6 +137,8 @@ try
         keyswitchManipulator->addMatrixManipulator('7', "Spherical", new osgGA::SphericalManipulator());
         viewer.setCameraManipulator(keyswitchManipulator.get());
     }
+
+    
 
     // add the state manipulator
     viewer.addEventHandler(new osgGA::StateSetManipulator(viewer.getCamera()->getOrCreateStateSet()));
