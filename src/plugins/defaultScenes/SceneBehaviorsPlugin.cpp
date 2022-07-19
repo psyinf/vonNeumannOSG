@@ -1,3 +1,4 @@
+#include "Flatticator.h"
 #include "SceneBehaviors.h"
 
 #include <boost/functional/factory.hpp>
@@ -21,6 +22,7 @@ extern "C" SCENE_BEHAVIOR_PLUGIN void registerPlugin(entities::EntityBehaviorReg
     {
         registry.registerPrototype("reflector", boost::factory<entities::Reflector*>());
         registry.registerPrototype("torusificator", boost::factory<entities::Torusifator*>());
+        registry.registerPrototype("flatticator", boost::factory<entities::Flatticator*>());
     }
     catch (const std::exception& e)
     {

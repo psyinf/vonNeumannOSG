@@ -32,7 +32,11 @@ public:
     explicit BehaviorBase(const nsConfig::BehaviorConf& conf)
         : conf(conf){};
 
-    virtual void frame(Entity& entity, FrameTime frameTime) = 0;
+    virtual void                  frame(Entity& entity, FrameTime frameTime) = 0;
+    const nsConfig::BehaviorConf& getConf() const
+    {
+        return conf;
+    }
 
 private:
     nsConfig::BehaviorConf conf;

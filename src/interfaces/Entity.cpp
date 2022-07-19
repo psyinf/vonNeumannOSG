@@ -48,10 +48,11 @@ Entity::Entity(const std::string& name, const std::string& config, const std::sh
     {
         auto model = osgDB::readNodeFile(gizmo.model);
         auto pat   = new osg::PositionAttitudeTransform;
+
         addChild(pat);
 
         pat->addChild(model);
-        gizmoModelIndices.emplace(gizmo.type, pat);
+        gizmos.emplace(gizmo.type, GizmoInfo({pat, gizmo}));
     }
 
     addUpdateCallback(new EntityUpdateCallback());
@@ -135,16 +136,17 @@ void Entity::processProperties(const nlohmann::json& json)
 
 void Entity::updateGizmos(osg::NodeVisitor* nv)
 {
-    for (const auto& gizmo : gizmoModelIndices)
+    for (auto& [name, info] : gizmos)
     {
-        if (gizmo.first == "velocity")
+        if (name == "velocity")
         {
-            auto      pat = reinterpret_cast<osg::PositionAttitudeTransform*>(gizmo.second.get());
+            auto      pat = info.pat;
             osg::Quat q;
             auto      current = getAttitude();
-            q.makeRotate(Entity::forwardDirection, Entity::getVelocity());
-            pat->setAttitude(q * current.inverse());
-            pat->setScale(osg::Vec3d(10, 10, 25));
+            q.makeRotate(-Entity::forwardDirection, Entity::getVelocity());
+            nsConfig::PositionAttitudeConf::from(pat, info.gizmo.pat);
+            pat->setAttitude(q * current.conj());
+            // TODO: scale wit actual velocity. https://trello.com/c/rqvMVBjV
         }
     }
 }

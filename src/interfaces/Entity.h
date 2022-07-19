@@ -14,10 +14,17 @@ namespace entities
 class BehaviorBase;
 class EntityBehaviors;
 class EntityManager;
-
+/**
+ *
+ */
 class Entity : public osg::PositionAttitudeTransform
 {
     using PropertyName = std::string;
+    struct GizmoInfo
+    {
+        osg::ref_ptr<osg::PositionAttitudeTransform> pat;
+        nsConfig::Gizmo                              gizmo;
+    };
 
 public:
     Entity()                                  = default;
@@ -63,8 +70,9 @@ private:
     osg::Vec3d velocity;
     osg::Vec3d acceleration;
 
-    std::unique_ptr<EntityBehaviors>                         entityBehaviors = std::make_unique<EntityBehaviors>();
-    std::unordered_map<std::string, osg::ref_ptr<osg::Node>> gizmoModelIndices;
+    std::unique_ptr<EntityBehaviors>           entityBehaviors = std::make_unique<EntityBehaviors>();
+    std::unordered_map<std::string, GizmoInfo> gizmos;
+
 
     nlohmann::json entityProperties;
     std::shared_ptr<entities::EntityManager>
@@ -95,7 +103,7 @@ T entities::Entity::getProperty(const std::string& key, T defaultValue)
     {
         return getProperty(key);
     }
-    catch (std::exception* e)
+    catch (const std::exception& e)
     {
         return defaultValue;
     }

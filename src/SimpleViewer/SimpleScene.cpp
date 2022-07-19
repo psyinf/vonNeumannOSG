@@ -21,14 +21,24 @@ void SimpleScene::load(const std::string& fileName)
     std::vector<std::pair<std::string, std::shared_ptr<entities::BehaviorBase>>> sceneBehaviorInstances;
     for (auto& scene_behavior : scene.sceneBehaviors)
     {
-        auto instance = entityManager->getBehaviorRegistry().get(scene_behavior.type, scene_behavior);
-        sceneBehaviorInstances.emplace_back(std::make_pair(scene_behavior.type, instance));
+        if (scene_behavior.enabled)
+        {
+            auto instance = entityManager->getBehaviorRegistry().get(scene_behavior.type, scene_behavior);
+            sceneBehaviorInstances.emplace_back(std::make_pair(scene_behavior.type, instance));
+            std::cout << "Using scene behavior: " << scene_behavior.type << std::endl;
+        }
+        else
+        {
+            std::cout << "Skipping disabled scene behavior: " << scene_behavior.type << std::endl;
+        }
     }
+
 
     for (auto& marker : scene.markers)
     {
         if (!marker.enabled)
         {
+            std::cout << "Skipping disabled marker: " << marker.model << std::endl;
             continue;
         }
         auto model = osgDB::readNodeFile(marker.model);
@@ -50,8 +60,7 @@ void SimpleScene::load(const std::string& fileName)
     for (size_t i = scene.numDrones; i-- > 0;)
     {
         osg::ref_ptr<entities::Entity> entity = new entities::Entity(std::format("drone{}", i), scene.defaultEntity, entityManager);
-        // add global behaviors
-        // TODO: add based on configuration of entity
+
         std::ranges::for_each(sceneBehaviorInstances, [&entity](auto inst) { entity->addBehavior(inst.first, inst.second); });
 
         if (bounds.radius() < 0)

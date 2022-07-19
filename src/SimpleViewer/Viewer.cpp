@@ -89,14 +89,17 @@ public:
             switch (ea.getKey())
             {
             case '.':
-                factor *= 1.1;
+                factor *= 1.1f;
+                std::cout << "speed factor: " << factor << std::endl;
                 return true;
                 break;
             case ',':
-                factor /= 1.1;
+                factor /= 1.1f;
+                std::cout << "speed factor: " << factor << std::endl;
                 return true;
                 break;
             case osgGA::GUIEventAdapter::KEY_Return:
+                std::cout << (paused ? "unpausing" : "pausing") << std::endl;
                 paused = !paused;
                 break;
             }
@@ -108,7 +111,7 @@ public:
         return false;
     }
 
-    float getFactor()
+    float getFactor() const
     {
         return paused ? 0.0 : factor;
     }
@@ -138,7 +141,6 @@ try
         viewer.setCameraManipulator(keyswitchManipulator.get());
     }
 
-    
 
     // add the state manipulator
     viewer.addEventHandler(new osgGA::StateSetManipulator(viewer.getCamera()->getOrCreateStateSet()));

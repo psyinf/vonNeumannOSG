@@ -1,0 +1,35 @@
+{
+	"name": "Default",
+	"defaultEntity": "data/drone.json",
+	"numDrones": 10,
+	"sceneSize": 1000.0,
+	"sceneBehaviors": [
+		{
+			"enabled": true,
+			"type": "torusificator",
+			"conf": {
+				"box": {
+					"min": -400,
+					"max": 400
+				}
+			}
+		},
+		{
+			"enabled": true,
+			"type": "flatticator",
+			"conf": {
+				"axis":"X" 
+			}
+		}
+	],
+	"markers" : [
+		{
+			"enabled" : true,
+			"model" : "data/models/axes.osgt",
+			"pat": {
+				"pos" : [0.0,0.0,0.0],
+				"scale" : [100,100,100]
+			}
+		}
+	]
+}

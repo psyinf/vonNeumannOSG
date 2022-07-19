@@ -22,7 +22,7 @@
 			"model" : "data/models/axes.osgt",
 			"pat": 	{
 				"pos" : [0.0,0.0,0.0],
-				"scale" : [1,1,1]
+				"scale" : [3,3,15]
 				}
 		}
 

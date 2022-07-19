@@ -23,9 +23,9 @@ void GotoController::frame(Entity& entity, FrameTime frameTime)
     auto magnitude        = calcAcceleration.length();
 
 
-    // entity.getVelocity() = osgext::normalized(ownDir) * magnitude * 100.0; //    *(ownDir * targetDir) * 0.001;
-    entity.getVelocity() = osg::Vec3d(0.01, 0, 0);
-    //    osgext::normalized(ownDir) * magnitude * 100.0; //    *(ownDir * targetDir) * 0.001;
+    entity.getVelocity() = osgext::normalized(ownDir) * magnitude * 100.0; //    *(ownDir * targetDir) * 0.001;
+    // entity.getVelocity() = osg::Vec3d(0.01, 0, 0);
+    //     osgext::normalized(ownDir) * magnitude * 100.0; //    *(ownDir * targetDir) * 0.001;
 }
 
 
