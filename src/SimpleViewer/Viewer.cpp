@@ -124,7 +124,26 @@ protected:
 int main(int argc, char** argv)
 try
 {
-    osgViewer::Viewer viewer;
+    osgViewer::Viewer   viewer;
+    osg::ArgumentParser arguments(&argc, argv);
+
+    arguments.getApplicationUsage()->setApplicationName(arguments.getApplicationName());
+    arguments.getApplicationUsage()->setDescription(arguments.getApplicationName() + " command line based viewer. Loads scene.yaml by default");
+    arguments.getApplicationUsage()->setCommandLineUsage(arguments.getApplicationName() + " [options] [filename]...");
+
+    unsigned int helpType = 0;
+    if ((helpType = arguments.readHelpType()))
+    {
+        arguments.getApplicationUsage()->write(std::cout, helpType);
+        return 1;
+    }
+
+    // report any errors if they have occurred when parsing the program arguments.
+    if (arguments.errors())
+    {
+        arguments.writeErrorMessages(std::cout);
+        return 1;
+    }
 
 
     // set up the camera manipulators.
@@ -155,13 +174,21 @@ try
 
     // load the data
     setupCaching();
-    std::unique_ptr<SimpleScene> ss = std::make_unique<SimpleScene>();
-    ss->load("data/flat_scene.json");
-
+    auto ss        = std::make_unique<SimpleScene>();
+    std::string                  sceneName = "data/scene.json";
+    for (int pos = 1; pos < arguments.argc(); ++pos)
+    {
+        if (!arguments.isOption(pos))
+        {
+            // not an option so assume string is a filename.
+            sceneName = arguments[pos];
+        }
+    }
+    ss->load(sceneName);
 
     // optimize the scene graph, remove redundant nodes and state etc.
     osgUtil::Optimizer optimizer;
-    // optimizer.optimize(ss->getSceneRoot(), osgUtil::Optimizer::DEFAULT_OPTIMIZATIONS);
+    optimizer.optimize(ss->getSceneRoot(), osgUtil::Optimizer::DEFAULT_OPTIMIZATIONS);
 
     viewer.setSceneData(ss->getSceneRoot());
     viewer.getCamera()->setComputeNearFarMode(osg::CullSettings::DO_NOT_COMPUTE_NEAR_FAR);
