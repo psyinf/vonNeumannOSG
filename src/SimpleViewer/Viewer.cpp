@@ -156,7 +156,7 @@ try
     // load the data
     setupCaching();
     std::unique_ptr<SimpleScene> ss = std::make_unique<SimpleScene>();
-    ss->load("data/scene.json");
+    ss->load("data/flat_scene.json");
 
 
     // optimize the scene graph, remove redundant nodes and state etc.

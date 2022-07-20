@@ -150,3 +150,8 @@ void Entity::updateGizmos(osg::NodeVisitor* nv)
         }
     }
 }
+
+const Entity::GizmoInfos& Entity::getGizmos() const
+{
+    return gizmos;
+}

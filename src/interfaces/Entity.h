@@ -20,13 +20,16 @@ class EntityManager;
 class Entity : public osg::PositionAttitudeTransform
 {
     using PropertyName = std::string;
+
+
+public:
     struct GizmoInfo
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> pat;
         nsConfig::Gizmo                              gizmo;
     };
+    using GizmoInfos = std::unordered_map<std::string, GizmoInfo>;
 
-public:
     Entity()                                  = default;
     ~Entity()                                 = default;
     static inline osg::Vec3d forwardDirection = osg::Vec3d(0, 0, -1);
@@ -64,6 +67,8 @@ public:
     void processProperties(const nlohmann::json& json);
 
     void updateGizmos(osg::NodeVisitor* nv);
+
+    const GizmoInfos& getGizmos() const;
 
 private:
     osg::Vec3d target;

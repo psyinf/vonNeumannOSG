@@ -24,6 +24,14 @@
 				"pos" : [0.0,0.0,0.0],
 				"scale" : [3,3,15]
 				}
+		},
+		{
+			"type": "pidValue",
+			"model" : "data/models/axes.osgt",
+			"pat": 	{
+				"pos" : [0.0,0.0,0.0],
+				"scale" : [10,10,10]
+				}
 		}
 
 	],

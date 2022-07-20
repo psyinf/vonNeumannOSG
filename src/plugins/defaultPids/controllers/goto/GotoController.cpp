@@ -26,6 +26,21 @@ void GotoController::frame(Entity& entity, FrameTime frameTime)
     entity.getVelocity() = osgext::normalized(ownDir) * magnitude * 100.0; //    *(ownDir * targetDir) * 0.001;
     // entity.getVelocity() = osg::Vec3d(0.01, 0, 0);
     //     osgext::normalized(ownDir) * magnitude * 100.0; //    *(ownDir * targetDir) * 0.001;
+
+    // experimental: gizmo update
+    const auto& gizmos = entity.getGizmos();
+    if (gizmos.contains("pidError"))
+    {
+        const auto& gizmo = gizmos.at("pidError");
+        auto        pat   = gizmo.pat;
+        pat->setScale(pidController.getPreError());
+    }
+    if (gizmos.contains("pidValue"))
+    {
+        const auto& gizmo = gizmos.at("pidValue");
+        auto        pat   = gizmo.pat;
+        pat->setScale(pidController.getPreError());
+    }
 }
 
 
