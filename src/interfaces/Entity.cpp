@@ -46,6 +46,10 @@ Entity::Entity(const std::string& name, const std::string& config, const std::sh
     }
     for (auto& gizmo : conf.gizmos)
     {
+        if (!gizmo.enabled)
+        {
+            continue;
+        }
         auto model = osgDB::readNodeFile(gizmo.model);
         auto pat   = new osg::PositionAttitudeTransform;
 

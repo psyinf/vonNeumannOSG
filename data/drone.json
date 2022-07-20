@@ -18,6 +18,7 @@
 	],
 	"gizmos" : [
 	    {
+			"enabled": false,
 			"type": "velocity",
 			"model" : "data/models/axes.osgt",
 			"pat": 	{
@@ -26,6 +27,7 @@
 				}
 		},
 		{
+			"enabled": false,
 			"type": "pidValue",
 			"model" : "data/models/axes.osgt",
 			"pat": 	{
