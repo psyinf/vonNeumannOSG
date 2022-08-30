@@ -29,17 +29,42 @@ void GotoController::frame(Entity& entity, FrameTime frameTime)
 
     // experimental: gizmo update
     const auto& gizmos = entity.getGizmos();
-    if (gizmos.contains("pidError"))
+
+    for (const auto& [name, info] : gizmos)
     {
-        const auto& gizmo = gizmos.at("pidError");
-        auto        pat   = gizmo.pat;
-        pat->setScale(pidController.getPreError());
-    }
-    if (gizmos.contains("pidValue"))
-    {
-        const auto& gizmo = gizmos.at("pidValue");
-        auto        pat   = gizmo.pat;
-        pat->setScale(pidController.getPreError());
+        std::cout << "gizmo " << name << " - " << info.gizmo.mapping << std::endl;
+        osg::Vec3d value;
+        if (name == "pidError")
+        {
+            value = pidController.getPreError();
+        }
+        else if (name == "pidValue")
+        {
+            value = pidController.getPid();
+        }
+        else
+        {
+            // throw std::out_of_range("Unsupported gizmo source: " + name);
+            continue;
+        }
+
+        if (info.gizmo.mapping == "scale")
+        {
+            // TODO: multiply with configured scale
+            info.pat->setScale(value);
+        }
+        else if (info.gizmo.mapping == "direction")
+        {
+            osg::Quat   q;
+            const auto& current = entity.getAttitude();
+            q.makeRotate(-Entity::forwardDirection, value);
+            nsConfig::PositionAttitudeConf::from(info.pat, info.gizmo.pat);
+            info.pat->setAttitude(q * current.conj());
+        }
+        else
+        {
+            throw std::out_of_range("Unsupported gizmo mapping: " + info.gizmo.mapping);
+        }
     }
 }
 

@@ -10,25 +10,21 @@ find_package(nlohmann_json REQUIRED)
 
 
 add_library(${LIB_NAME} STATIC 
-	${HEADER_FILES}
-	${CPP_FILES}
+	${HEADER_FILES} 
+	${CPP_FILES} 
 )
 add_library(${PROJECT_NAMESPACE}::${LIB_NAME} ALIAS ${LIB_NAME})
 
 target_link_libraries(${LIB_NAME}
-	PUBLIC
-		
+	PUBLIC	
 		Boost::headers
-		#${PROJECT_NAMESPACE}::Common
-
 	PRIVATE
-		#Boost::lockfree
 	INTERFACE
 		nlohmann_json::nlohmann_json
 )	
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" 
-	FILES ${HEADER_FILES} ${CPP_FILES}
+	FILES ${HEADER_FILES}  ${CPP_FILES}
 )
 
 

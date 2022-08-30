@@ -174,8 +174,8 @@ try
 
     // load the data
     setupCaching();
-    auto ss        = std::make_unique<SimpleScene>();
-    std::string                  sceneName = "data/scene.json";
+    auto        ss        = std::make_unique<SimpleScene>();
+    std::string sceneName = "data/scene.json";
     for (int pos = 1; pos < arguments.argc(); ++pos)
     {
         if (!arguments.isOption(pos))

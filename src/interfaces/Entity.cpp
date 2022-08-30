@@ -14,57 +14,22 @@ Entity::Entity(const std::string& name, const std::string& config, const std::sh
     auto conf = nsConfig::load<nsConfig::EntityConf>(config);
     PositionAttitudeTransform::setName(name);
 
-    for (auto& model : conf.models)
+    for (const auto& model : conf.models)
     {
-        auto pat = new osg::PositionAttitudeTransform;
+        osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform;
         pat->addChild(osgDB::readNodeFile(model.model));
         nsConfig::PositionAttitudeConf::from(pat, model.pat);
 
         PositionAttitudeTransform::addChild(pat);
     }
 
-
     processProperties(conf.properties);
-    for (const auto& behaviorConf : conf.behaviors)
-    {
-        if (!behaviorConf.enabled)
-        {
-            continue;
-        }
-        try
-        {
-            auto behavior = entityManager->getBehaviorRegistry().get(conf.type, behaviorConf);
 
-            entityBehaviors->add(behaviorConf.type, behavior);
+    initializeBehaviours(conf);
 
-            entityBehaviors->frame(*this, {1, 2});
-        }
-        catch (const std::exception& e)
-        {
-            std::cerr << "Cannot add behavior to entity: '" << behaviorConf.type << "'. " << e.what() << std::endl;
-        }
-    }
-    for (auto& gizmo : conf.gizmos)
-    {
-        if (!gizmo.enabled)
-        {
-            continue;
-        }
-        auto model = osgDB::readNodeFile(gizmo.model);
-        auto pat   = new osg::PositionAttitudeTransform;
-
-        addChild(pat);
-
-        pat->addChild(model);
-        gizmos.emplace(gizmo.type, GizmoInfo({pat, gizmo}));
-    }
+    initializeGizmos(conf);
 
     addUpdateCallback(new EntityUpdateCallback());
-    // test configuration
-    if (getProperty<std::string>("faction") == "red")
-    {
-        // std::cout << getProperty<std::string>("faction");
-    }
 }
 
 osg::Vec3d& Entity::getVelocity()
@@ -128,7 +93,7 @@ std::shared_ptr<BehaviorBase> Entity::getBehavior(const std::string& name) const
 {
     return entityBehaviors->get(name);
 }
-void Entity::addBehavior(const std::string& name, std::shared_ptr<BehaviorBase> behavior)
+void Entity::addBehavior(const std::string& name, std::shared_ptr<BehaviorBase> behavior) const
 {
     entityBehaviors->add(name, behavior);
 }
@@ -138,9 +103,9 @@ void Entity::processProperties(const nlohmann::json& json)
     entityProperties = json;
 }
 
-void Entity::updateGizmos(osg::NodeVisitor* nv)
+void Entity::updateGizmos(const osg::NodeVisitor* nv)
 {
-    for (auto& [name, info] : gizmos)
+    for (const auto& [name, info] : gizmos)
     {
         if (name == "velocity")
         {
@@ -158,4 +123,45 @@ void Entity::updateGizmos(osg::NodeVisitor* nv)
 const Entity::GizmoInfos& Entity::getGizmos() const
 {
     return gizmos;
+}
+
+void Entity::initializeGizmos(nsConfig::EntityConf& conf)
+{
+    for (const auto& gizmo : conf.gizmos)
+    {
+        if (!gizmo.enabled)
+        {
+            continue;
+        }
+        auto                                         model = osgDB::readNodeFile(gizmo.model);
+        osg::ref_ptr<osg::PositionAttitudeTransform> pat   = new osg::PositionAttitudeTransform;
+        nsConfig::PositionAttitudeConf::from(pat, gizmo.pat);
+        addChild(pat);
+
+        pat->addChild(model);
+        gizmos.try_emplace(gizmo.type, GizmoInfo({pat, gizmo}));
+    }
+}
+
+void Entity::initializeBehaviours(nsConfig::EntityConf& conf)
+{
+    for (const auto& behaviorConf : conf.behaviors)
+    {
+        if (!behaviorConf.enabled)
+        {
+            continue;
+        }
+        try
+        {
+            auto behavior = entityManager->getBehaviorRegistry().get(conf.type, behaviorConf);
+
+            entityBehaviors->add(behaviorConf.type, behavior);
+
+            entityBehaviors->frame(*this, {1, 2});
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Cannot add behavior to entity: '" << behaviorConf.type << "'. " << e.what() << std::endl;
+        }
+    }
 }

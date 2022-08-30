@@ -20,6 +20,7 @@
 	    {
 			"enabled": false,
 			"type": "velocity",
+			"mapping" : "scale",
 			"model" : "data/models/axes.osgt",
 			"pat": 	{
 				"pos" : [0.0,0.0,0.0],
@@ -27,12 +28,13 @@
 				}
 		},
 		{
-			"enabled": false,
+			"enabled": true,
 			"type": "pidValue",
-			"model" : "data/models/axes.osgt",
+			"mapping" : "direction",
+			"model" : "line.gizmo",
 			"pat": 	{
 				"pos" : [0.0,0.0,0.0],
-				"scale" : [10,10,10]
+				"scale" : [11,11,11]
 				}
 		}
 
