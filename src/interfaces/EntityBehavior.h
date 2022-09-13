@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 #include "EntityConf.h"
-
+#include "FrameTime.h"
 #include <osg/BoundingBox>
 
 #include <BehaviorConf.h>
@@ -17,11 +17,7 @@ namespace entities
 class Entity;
 class Entities;
 
-using FrameTime = struct
-{
-    int   frame;
-    float delta;
-};
+
 using Config = nlohmann::json;
 /*
  * Some default entity behaviors as functions

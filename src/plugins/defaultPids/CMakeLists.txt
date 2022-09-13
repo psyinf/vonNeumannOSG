@@ -1,4 +1,5 @@
 set(MODULE_NAME DefaultPids)
+find_package(openscenegraph)
 
 file(GLOB_RECURSE PRIVATE_FILES	CONFIGURE_DEPENDS	*.*)
 
@@ -11,6 +12,7 @@ target_link_libraries(${MODULE_NAME} PRIVATE
 		${PROJECT_NAMESPACE}::common
 		${PROJECT_NAMESPACE}::interfaces
 	PRIVATE
+		OPENSCENEGRAPH::osg OPENSCENEGRAPH::osgDB
 )
 
 target_compile_features(${MODULE_NAME}

@@ -1,5 +1,6 @@
+#include "EntityBehavior.h"
 #include "EntityBehaviors.h"
-
+#include <algorithm>
 
 using namespace entities;
 

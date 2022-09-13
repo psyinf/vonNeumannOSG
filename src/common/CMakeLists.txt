@@ -7,7 +7,7 @@ file(GLOB CPP_FILES 	CONFIGURE_DEPENDS "*.cpp")
 set(MIN_BOOST_VERSION 1.65)
 find_package(Boost ${MIN_BOOST_VERSION} REQUIRED) #COMPONENTS factory)
 find_package(nlohmann_json REQUIRED)
-
+find_package(openscenegraph MODULE REQUIRED)
 
 add_library(${LIB_NAME} STATIC 
 	${HEADER_FILES} 
@@ -19,6 +19,7 @@ target_link_libraries(${LIB_NAME}
 	PUBLIC	
 		Boost::headers
 	PRIVATE
+		 OPENSCENEGRAPH::osg
 	INTERFACE
 		nlohmann_json::nlohmann_json
 )	

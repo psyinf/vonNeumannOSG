@@ -1,7 +1,7 @@
 #include "KafkaLoggerBehavior.h"
 
 #include "Entity.h"
-#include "cppkafka/cppkafka.h"
+//#include "cppkafka/cppkafka.h"
 
 #include <vector>
 
@@ -20,10 +20,10 @@ entities::KafkaLogger::KafkaLogger(const nsConfig::BehaviorConf& conf)
     , dataLogger(std::make_unique<nsDataLogger::DataLogger>([this](auto m) { this->handleMessage(std::move(m)); }, [this]() { this->flush(); }))
 {
     const auto& channels = conf.conf["channels"];
-    producer             = std::make_unique<cppkafka::BufferedProducer<std::string>>(config);
-    producer->set_queue_full_notification(cppkafka::BufferedProducer<std::string>::QueueFullNotification::OncePerMessage);
-    producer->set_queue_full_callback([]([[maybe_unused]] const auto& msgBuilder) { std::cerr << "Producer queue full"; });
-    dataLogger->start();
+    //producer             = std::make_unique<cppkafka::BufferedProducer<std::string>>(config);
+    //producer->set_queue_full_notification(cppkafka::BufferedProducer<std::string>::QueueFullNotification::OncePerMessage);
+    //producer->set_queue_full_callback([]([[maybe_unused]] const auto& msgBuilder) { std::cerr << "Producer queue full"; });
+    //dataLogger->start();
 }
 
 void entities::KafkaLogger::frame(Entity& entity, FrameTime frameTime)
@@ -41,10 +41,10 @@ void entities::KafkaLogger::frame(Entity& entity, FrameTime frameTime)
 
 void entities::KafkaLogger::handleMessage(nsDataLogger::Message&& msg) const
 {
-    producer->add_message(cppkafka::MessageBuilder(std::move(msg.topic)).partition(0).payload(msg.buffer));
+   // producer->add_message(cppkafka::MessageBuilder(std::move(msg.topic)).partition(0).payload(msg.buffer));
 }
 
 void entities::KafkaLogger::flush() const
 {
-    producer->async_flush();
+    //producer->async_flush();
 }

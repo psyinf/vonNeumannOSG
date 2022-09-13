@@ -32,7 +32,7 @@ void GotoController::frame(Entity& entity, FrameTime frameTime)
 
     for (const auto& [name, info] : gizmos)
     {
-        std::cout << "gizmo " << name << " - " << info.gizmo.mapping << std::endl;
+        //std::cout << "gizmo " << name << " - " << info.gizmo.mapping << std::endl;
         osg::Vec3d value;
         if (name == "pidError")
         {

@@ -10,7 +10,7 @@ public:
 
     ~GotoController() = default;
 
-    void frame(entities::Entity& entity, entities::FrameTime frameTime) override;
+    void frame(entities::Entity& entity, FrameTime frameTime) override;
 
     Vec3dPid pidController = Vec3dPid(osg::Vec3d(0.1, 0.0001, 0.01), osg::Vec3d(0.1, 0.1, 0.1));
 };

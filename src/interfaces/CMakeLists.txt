@@ -7,7 +7,8 @@ file(GLOB CPP_FILES 	CONFIGURE_DEPENDS "*.cpp")
 set(MIN_BOOST_VERSION 1.65)
 find_package(Boost ${MIN_BOOST_VERSION} REQUIRED) #COMPONENTS lockfree)
 find_package(nlohmann_json REQUIRED)
-find_package(cppkafka MODULE REQUIRED)
+find_package(CppKafka MODULE REQUIRED)
+find_package(openscenegraph MODULE REQUIRED)
 
 add_library(${LIB_NAME} STATIC 
 	${HEADER_FILES}
@@ -18,12 +19,13 @@ add_library(${PROJECT_NAMESPACE}::${LIB_NAME} ALIAS ${LIB_NAME})
 target_link_libraries(${LIB_NAME}
 	PUBLIC
 		${PROJECT_NAMESPACE}::common
+		
 		Boost::headers
 		
 	PRIVATE
-		cppkafka::cppkafka
-
-		#Boost::lockfree
+		CppKafka::CppKafka
+		OPENSCENEGRAPH::osg
+		
 	INTERFACE
 		nlohmann_json::nlohmann_json
 		

@@ -1,4 +1,5 @@
 #pragma once
+#include "EntityBehaviors.h"
 #include "EntityConf.h"
 #include "EntityUpdateCallback.h"
 #include "JsonConfigCache.h"
@@ -12,7 +13,7 @@
 namespace entities
 {
 class BehaviorBase;
-class EntityBehaviors;
+
 class EntityManager;
 /**
  *

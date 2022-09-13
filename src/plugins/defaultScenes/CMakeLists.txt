@@ -1,4 +1,5 @@
 set(MODULE_NAME DefaultScenes)
+find_package(openscenegraph MODULE REQUIRED)
 
 file(GLOB_RECURSE PRIVATE_FILES	CONFIGURE_DEPENDS	*.*)
 
@@ -8,7 +9,7 @@ add_library(${MODULE_NAME} MODULE
 
 target_link_libraries(${MODULE_NAME} PRIVATE
 	PUBLIC
-		#Boost::boost
+		OPENSCENEGRAPH::osg OPENSCENEGRAPH::osgDB
 		${PROJECT_NAMESPACE}::common
 		${PROJECT_NAMESPACE}::interfaces
 

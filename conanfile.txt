@@ -1,16 +1,18 @@
 [requires]
 openscenegraph/3.6.5
 nlohmann_json/3.10.5 #move t0 3.10.6 as soon as possible
-cppkafka/0.3.1
+cppkafka/0.4.0
 kangaru/4.2.4
-qt/6.2.2
-pslog/0.1
+#qt/6.2.2
+#pslog/0.1
 freetype/2.11.0
 #qwt/6.2.0
+zlib/1.2.12
 
 [generators]
+
 cmake_find_package
-qt  
+#qt  
 
 [options]
 qt:shared=True
