@@ -1,6 +1,6 @@
 [requires]
 openscenegraph/3.6.5
-nlohmann_json/3.10.5 #move t0 3.10.6 as soon as possible
+nlohmann_json/3.11.2
 cppkafka/0.4.0
 kangaru/4.2.4
 #qt/6.2.2
