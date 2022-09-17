@@ -15,7 +15,7 @@ public:
         supportsExtension("gizmo", "Gizmo Pseudo loader");
     }
 
-    const char* className() const override { return "Normals Pseudo Loader"; }
+    const char* className() const override { return "Gizmo Pseudo Loader"; }
 
     bool acceptsExtension(const std::string& extension) const override
     {
@@ -29,25 +29,27 @@ public:
 
     ReadResult readNode(const std::string& fileName, const Options* options) const override
     {
-
-
         std::string ext = osgDB::getFileExtension(fileName);
         if (!acceptsExtension(ext))
             return ReadResult::FILE_NOT_HANDLED;
 
         if ("line" == osgDB::getNameLessExtension(fileName))
         {
-            std::cout << "gizmo line" << std::endl;
-            std::vector<osg::Vec3d> points = {{0.0, 0.0, 0.0}, {0.0, 0.0, 10.0}};
+            osg::ref_ptr<osg::Geode> g      = new osg::Geode;
+            std::vector<osg::Vec3d> points = {{0.0, 0.0, 0.0}, {0.0, 0.0, 55.0}};
             std::vector<osg::Vec4d> colors = {{1.0, 1.0, 1.0, 1.0}};
 
             osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
+            geom->setUseVertexBufferObjects(true);
+            
             geom->setVertexArray(new osg::Vec3Array(points.begin(), points.end()));
             geom->setColorArray(new osg::Vec4Array(colors.begin(), colors.end()), osg::Array::BIND_OVERALL);
 
             geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, points.size()));
-
-            return geom.get();
+           
+            g->addDrawable(geom);
+            g->setName("Kartof´fel");
+            return g;
         }
 
         if ("cross" == osgDB::getNameLessExtension(fileName))

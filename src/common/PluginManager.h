@@ -51,6 +51,7 @@ public:
         {
             auto file_path = p.path().filename().replace_extension("").string();
             file_path | std::ranges::views::transform([](auto c) { return std::toupper(c); });
+           
 
             if (!file_path.ends_with("_d") && isDebug())
             {
@@ -82,7 +83,7 @@ public:
                 }
                 catch (const std::exception& e)
                 {
-                    std::cout << std::format("Error loading  plugin {}: {}", p.path().string(), e.what()) << std::endl;
+                    std::cout << std::format("Error loading plugin {}: {}", p.path().string(), e.what()) << std::endl;
                 }
             }
         }

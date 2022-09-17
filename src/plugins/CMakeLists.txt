@@ -1,2 +1,3 @@
 add_subdirectory(defaultPids)
 add_subdirectory(defaultScenes)
+add_subdirectory(defaultLoaders)
