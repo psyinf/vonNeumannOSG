@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 project(testProj VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(CMAKE_DEBUG_POSTFIX _d)
 set(CMAKE_RELWITHDEBINFO_POSTFIX _rd)
 
@@ -9,6 +10,8 @@ set(PROJECT_NAMESPACE "vonNeumann")			# namespace for target aliases in this pro
 set(PROJECT_EXPORT_NAME "vonNeumann")			# export name to be used by install() and downstream find_package()
 set(PROJECT_INSTALL_PREFIX "vonNeumann")		# folder 'prefix' for installed includes and libs
 
+# Run conan install automatically, or display warning if conan is not installed
+include(cmake/conan_config.cmake)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
@@ -30,11 +33,10 @@ list(APPEND CMAKE_MODULE_PATH
 )
 
 add_definitions(-Dcppkafka_EXPORTS)
-# Run conan install automatically, or display warning if conan is not installed
-include(cmake/conan_config.cmake)
 
 if(WIN32)
     add_compile_definitions(WINDOWS=1)
+	add_definitions(-DNOMINMAX)
 endif ()
 
 add_subdirectory(src/common)
@@ -45,7 +47,9 @@ add_subdirectory(src/SimpleViewer)
 add_subdirectory(src/plugins)
 add_subdirectory(src/interfaces)
 
-add_custom_target( conan-install ALL COMMAND conan install ${CMAKE_SOURCE_DIR}/conanfile.txt -if ${CMAKE_INSTALL_PREFIX} -s build_type=$<CONFIG> DEPENDS install)       
+add_custom_target( conan-install ALL COMMAND conan install ${CMAKE_SOURCE_DIR}/conanfile.py -if ${CMAKE_INSTALL_PREFIX} -s build_type=$<CONFIG> DEPENDS install)       
+
+#add_custom_target( conan-install ALL COMMAND conan imports ${CMAKE_SOURCE_DIR}/conanfile.py -imf ${CMAKE_INSTALL_PREFIX} DEPENDS install)       
 
 #for now
 install(DIRECTORY

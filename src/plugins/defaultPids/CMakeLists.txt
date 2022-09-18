@@ -1,5 +1,5 @@
 set(MODULE_NAME DefaultPids)
-find_package(openscenegraph)
+find_package(OpenSceneGraph CONFIG REQUIRED)
 
 file(GLOB_RECURSE PRIVATE_FILES	CONFIGURE_DEPENDS	*.*)
 
@@ -19,6 +19,9 @@ target_compile_features(${MODULE_NAME}
 	PRIVATE
 		cxx_std_23
 )
+
+set_target_properties(${MODULE_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+set_target_properties(${MODULE_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX ${CMAKE_RELWITHDEBINFO_POSTFIX})
 
 install(TARGETS ${MODULE_NAME}
 	RUNTIME

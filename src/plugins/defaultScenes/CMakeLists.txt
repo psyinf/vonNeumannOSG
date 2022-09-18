@@ -1,5 +1,5 @@
 set(MODULE_NAME DefaultScenes)
-find_package(openscenegraph MODULE REQUIRED)
+find_package(OpenSceneGraph CONFIG REQUIRED)
 
 file(GLOB_RECURSE PRIVATE_FILES	CONFIGURE_DEPENDS	*.*)
 

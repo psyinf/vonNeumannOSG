@@ -1,8 +1,8 @@
 set(APP_NAME SimpleViewer)
 project(${APP_NAME} LANGUAGES CXX)
-find_package(nlohmann_json REQUIRED)
-find_package(openscenegraph MODULE REQUIRED)
-
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(OpenSceneGraph CONFIG REQUIRED)
+find_package(glog REQUIRED)
 file(GLOB HEADER_FILES 	CONFIGURE_DEPENDS "*.h")
 file(GLOB CPP_FILES 	CONFIGURE_DEPENDS "*.cpp")
 
@@ -17,8 +17,8 @@ add_executable(${APP_NAME}
 target_link_libraries (${APP_NAME} 
 					PRIVATE
 						nlohmann_json::nlohmann_json 
-
 						OPENSCENEGRAPH::osg OPENSCENEGRAPH::OpenThreads OPENSCENEGRAPH::osgDB OPENSCENEGRAPH::osgGA OPENSCENEGRAPH::osgViewer 
+						glog::glog
 				
 						${PROJECT_NAMESPACE}::common
 						${PROJECT_NAMESPACE}::interfaces
@@ -38,16 +38,6 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 
-
-
-
-set_target_properties(${APP_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-set_target_properties(${APP_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX ${CMAKE_RELWITHDEBINFO_POSTFIX})
-
-install(TARGETS ${APP_NAME}
-        CONFIGURATIONS Debug Release RelWithDebInfo 
-        RUNTIME DESTINATION bin)
-
 function(copy_runtime_dlls TARGET)
   get_property(already_applied TARGET "${TARGET}" PROPERTY _copy_runtime_dlls_applied)
 
@@ -64,6 +54,18 @@ function(copy_runtime_dlls TARGET)
 endfunction()
 
 #copy_runtime_dlls(SimpleViewer)
+
+
+set_target_properties(${APP_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+set_target_properties(${APP_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX ${CMAKE_RELWITHDEBINFO_POSTFIX})
+
+
+
+
+install(TARGETS ${APP_NAME}
+        CONFIGURATIONS Debug Release RelWithDebInfo 
+        RUNTIME DESTINATION bin)
+
 
 set_target_properties(
     ${APP_NAME} PROPERTIES

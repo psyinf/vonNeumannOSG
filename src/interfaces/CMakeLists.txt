@@ -5,10 +5,10 @@ file(GLOB CPP_FILES 	CONFIGURE_DEPENDS "*.cpp")
 
 # Find system dependencies
 set(MIN_BOOST_VERSION 1.65)
-find_package(Boost ${MIN_BOOST_VERSION} REQUIRED) #COMPONENTS lockfree)
-find_package(nlohmann_json REQUIRED)
-find_package(CppKafka MODULE REQUIRED)
-find_package(openscenegraph MODULE REQUIRED)
+find_package(Boost ${MIN_BOOST_VERSION} CONFIG REQUIRED) #COMPONENTS lockfree)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(CppKafka CONFIG REQUIRED)
+find_package(OpenSceneGraph CONFIG REQUIRED)
 
 add_library(${LIB_NAME} STATIC 
 	${HEADER_FILES}

@@ -4,10 +4,11 @@ file(GLOB HEADER_FILES 	CONFIGURE_DEPENDS "*.h")
 file(GLOB CPP_FILES 	CONFIGURE_DEPENDS "*.cpp")
 
 # Find system dependencies
-set(MIN_BOOST_VERSION 1.65)
-find_package(Boost ${MIN_BOOST_VERSION} REQUIRED) #COMPONENTS factory)
-find_package(nlohmann_json REQUIRED)
-find_package(openscenegraph MODULE REQUIRED)
+
+find_package(Boost 1.65 CONFIG REQUIRED) #COMPONENTS factory)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(openscenegraph CONFIG REQUIRED)
+find_package(glog CONFIG REQUIRED)
 
 add_library(${LIB_NAME} STATIC 
 	${HEADER_FILES} 
@@ -18,10 +19,14 @@ add_library(${PROJECT_NAMESPACE}::${LIB_NAME} ALIAS ${LIB_NAME})
 target_link_libraries(${LIB_NAME}
 	PUBLIC	
 		Boost::headers
+	
 	PRIVATE
 		 OPENSCENEGRAPH::osg
+		
 	INTERFACE
 		nlohmann_json::nlohmann_json
+		glog::glog
+
 )	
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" 
