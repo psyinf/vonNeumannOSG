@@ -47,6 +47,9 @@ add_subdirectory(src/SimpleViewer)
 add_subdirectory(src/plugins)
 add_subdirectory(src/interfaces)
 
+add_subdirectory(src/common_tests)
+
+
 add_custom_target( conan-install ALL COMMAND conan install ${CMAKE_SOURCE_DIR}/conanfile.py -if ${CMAKE_INSTALL_PREFIX} -s build_type=$<CONFIG> DEPENDS install)       
 
 #add_custom_target( conan-install ALL COMMAND conan imports ${CMAKE_SOURCE_DIR}/conanfile.py -imf ${CMAKE_INSTALL_PREFIX} DEPENDS install)       

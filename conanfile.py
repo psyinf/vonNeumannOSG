@@ -11,7 +11,9 @@ class vonNeumann(ConanFile):
 				,("kangaru/4.2.4")
 				,("freetype/2.11.0")
 				,("zlib/1.2.12")
-				,("glog/0.6.0")]
+				,("glog/0.6.0")
+                ,("gtest/1.12.1")
+                ]
     generators = "cmake_find_package_multi"
     
     def configure(self):
