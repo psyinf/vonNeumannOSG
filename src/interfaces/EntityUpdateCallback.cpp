@@ -1,14 +1,15 @@
 #include "EntityUpdateCallback.h"
 
 #include "Entity.h"
-
+#include "log.h"
 
 void EntityUpdateCallback::operator()(osg::Node* node, osg::NodeVisitor* nv)
 {
     auto* entity = dynamic_cast<entities::Entity*>(node);
     if (!entity)
     {
-        std::cerr << "EntityUpdateCallback registered to non-entity type" << std::endl;
+        LOG(FATAL) << "EntityUpdateCallback registered to non-entity type";
+        return;
     }
 
     if (lastFrame.getFrameNumber() == 0)

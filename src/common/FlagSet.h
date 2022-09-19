@@ -1,5 +1,6 @@
 #pragma once
 #include <bitset>
+#include <limits>
 
 template <typename TENUM>
 class FlagSet

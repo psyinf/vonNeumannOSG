@@ -12,7 +12,6 @@ using namespace entities;
 Reflector::Reflector(const nsConfig::BehaviorConf& conf)
     : BehaviorBase(conf)
 {
-    std::cout << "Instance" << std::endl;
     const float minSize = conf.conf["box"]["min"];
     const float maxSize = conf.conf["box"]["max"];
     box._min            = osg::Vec3(1, 1, 1) * minSize;

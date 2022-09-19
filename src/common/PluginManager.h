@@ -1,4 +1,5 @@
 #pragma once
+#include "log.h"
 
 #include <filesystem>
 #include <format>
@@ -31,7 +32,7 @@ public:
     PluginManager()          = default;
     virtual ~PluginManager() = default;
 
-    PluginBasePtr makeInstance(const std::filesystem::directory_entry& entry)
+    PluginBasePtr makeInstance(const std::filesystem::directory_entry& entry) const
     {
         return std::make_shared<PluginBaseClass>(entry.path().string());
     }
@@ -45,7 +46,7 @@ public:
     size_t scanForPlugins(const std::string& path, const std::string& filter = "*.dll")
     {
         size_t num_loaded = 0;
-        // std::cout <<  "Scanning for plugins in :" + path;
+        LOG(INFO) <<  "Scanning for plug-ins in :" << quote(path);
 
         for (auto& p : std::filesystem::directory_iterator(path)) /*get directory */
         {
@@ -55,12 +56,12 @@ public:
 
             if (!file_path.ends_with("_d") && isDebug())
             {
-                // log(pslog::Level::CONFIG) << "skipping non-debug plugin: " << dir_entry;
+                VLOG(1) << "skipping non-debug plugin: " << quote(file_path);
                 continue;
             }
             else if (file_path.ends_with("_d") && !isDebug())
             {
-                // log(pslog::Level::CONFIG) << "skipping debug plugin: " << dir_entry;
+                VLOG(1) << "skipping debug plugin: " << quote(file_path);
                 continue;
             }
             else
@@ -72,18 +73,18 @@ public:
                     plugin->getInfo(plugin_info);
                     if (!mPlugins.count(plugin_info))
                     {
-                        std::cout << std::format("Found plugin {} [{}]", p.path().filename().string(), plugin_info.name) << std::endl;
+                        LOG(INFO) << std::format("Found plugin {} [{}]", p.path().filename().string(), plugin_info.name);
                         mPlugins[plugin_info] = plugin;
                         ++num_loaded;
                     }
                     else
                     {
-                        // std::cout << std::format("Skipping plugin {} [{}], already registered.", p.path().filename().string(), plugin_info.name) << std::endl;
+                        LOG(WARNING) << std::format("Skipping plugin {} [{}], already registered.", p.path().filename().string(), plugin_info.name);
                     }
                 }
                 catch (const std::exception& e)
                 {
-                    std::cout << std::format("Error loading plugin {}: {}", p.path().string(), e.what()) << std::endl;
+                    LOG(ERROR) << std::format("Error loading plugin {}: {}", p.path().string(), e.what());
                 }
             }
         }

@@ -1,5 +1,6 @@
 #include "SimpleScene.h"
 
+#include "log.h"
 #include "Entity.h"
 #include "EntityBehavior.h"
 #include "EntityBehaviorRegistry.h"
@@ -12,10 +13,7 @@
 
 #include <random>
 
-std::string quote(const std::string& s)
-{
-    return std::string("'" + s + "'");
-}
+
 
 void SimpleScene::load(const std::string& fileName)
 {
@@ -31,11 +29,11 @@ void SimpleScene::load(const std::string& fileName)
         {
             auto instance = entityManager->getBehaviorRegistry().get(scene_behavior.type, scene_behavior);
             sceneBehaviorInstances.emplace_back(std::make_pair(scene_behavior.type, instance));
-            std::cout << "Using scene behavior: " << scene_behavior.type << std::endl;
+            LOG(INFO) << "Using scene behavior: " << scene_behavior.type << std::endl;
         }
         else
         {
-            std::cout << "Skipping disabled scene behavior: " << scene_behavior.type << std::endl;
+            LOG(INFO) << "Skipping disabled scene behavior: " << scene_behavior.type << std::endl;
         }
     }
 
@@ -44,7 +42,7 @@ void SimpleScene::load(const std::string& fileName)
     {
         if (!marker.enabled)
         {
-            std::cout << "Skipping disabled marker: " << marker.model << std::endl;
+            LOG(INFO) << "Skipping disabled marker: " << marker.model << std::endl;
             continue;
         }
         auto model = osgDB::readNodeFile(marker.model);

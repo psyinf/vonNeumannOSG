@@ -161,7 +161,7 @@ void Entity::initializeBehaviours(nsConfig::EntityConf& conf)
         }
         catch (const std::exception& e)
         {
-            std::cerr << "Cannot add behavior to entity: '" << behaviorConf.type << "'. " << e.what() << std::endl;
+            LOG(ERROR) << "Cannot add behavior to entity: '" << behaviorConf.type << "'. " << e.what();
         }
     }
 }

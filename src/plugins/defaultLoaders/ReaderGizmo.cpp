@@ -54,7 +54,6 @@ public:
 
         if ("cross" == osgDB::getNameLessExtension(fileName))
         {
-            std::cout << "gizmo cross" << std::endl;
             std::vector<osg::Vec3d> points = {{0.0, 0.0, 0.0}, {1.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}};
 
             osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;

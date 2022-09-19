@@ -1,4 +1,5 @@
 #pragma once
+#include "log.h"
 #include <FlagSet.h>
 #include <algorithm>
 #include <iostream>
@@ -27,7 +28,7 @@ public:
      */
     virtual bool registerPrototype(KeyType key, CtorType&& constructor_function)
     {
-        std::cout << "Registered " << key << " as plugin" << std::endl;
+        LOG(INFO) << "Registered " << quote(key) << " as plugin";
         auto ret = registeredConstructors.try_emplace(std::move(key), std::move(constructor_function));
         return ret.second;
     }
