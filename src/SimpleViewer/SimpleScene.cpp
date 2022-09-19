@@ -12,8 +12,14 @@
 
 #include <random>
 
+std::string quote(const std::string& s)
+{
+    return std::string("'" + s + "'");
+}
+
 void SimpleScene::load(const std::string& fileName)
 {
+    LOG(INFO) << "Loading scene " << quote(fileName);
     std::shared_ptr<entities::EntityManager> entityManager = std::make_unique<entities::EntityManager>();
     const auto                               scene         = nsConfig::load<nsConfig::SceneConfig>(fileName);
 

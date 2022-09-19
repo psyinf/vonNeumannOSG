@@ -1,5 +1,6 @@
 #include "SimpleScene.h"
 
+#include <glog/logging.h>
 #include <osg/CoordinateSystemNode>
 #include <osg/Switch>
 #include <osg/Types>
@@ -18,6 +19,7 @@
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
+#include <filesystem>
 #include <iostream>
 #include <memory>
 
@@ -121,9 +123,19 @@ protected:
     bool  paused = true;
 };
 
+
 int main(int argc, char** argv)
 try
-{
+{   
+    FLAGS_alsologtostderr = 1;
+    FLAGS_colorlogtostderr = 1;
+    FLAGS_log_year_in_prefix = false;
+    FLAGS_stderrthreshold    = google::GLOG_WARNING;
+    std::filesystem::create_directory("logs");
+    google::SetLogDestination(google::GLOG_INFO, "logs/info.log");
+    google::InitGoogleLogging(argv[0]);
+
+    LOG(INFO) << "Starting up ...";
     osgViewer::Viewer   viewer;
     osg::ArgumentParser arguments(&argc, argv);
 
@@ -184,6 +196,7 @@ try
             sceneName = arguments[pos];
         }
     }
+    
     ss->load(sceneName);
 
     // optimize the scene graph, remove redundant nodes and state etc.
@@ -211,5 +224,6 @@ try
 }
 catch (const std::exception& e)
 {
+    LOG(ERROR) << e.what();
     std::cout << e.what() << std::endl;
 }
