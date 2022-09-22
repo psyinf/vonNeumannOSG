@@ -7,7 +7,7 @@ add_library(${MODULE_NAME} MODULE
 	${PRIVATE_FILES}
 )
 
-target_link_libraries(${MODULE_NAME} PRIVATE
+target_link_libraries(${MODULE_NAME}
 	PUBLIC
 		OPENSCENEGRAPH::osg OPENSCENEGRAPH::osgDB
 	PRIVATE

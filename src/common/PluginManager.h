@@ -50,10 +50,10 @@ public:
 
         for (auto& p : std::filesystem::directory_iterator(path)) /*get directory */
         {
+
             auto file_path = p.path().filename().replace_extension("").string();
             file_path | std::ranges::views::transform([](auto c) { return std::toupper(c); });
            
-
             if (!file_path.ends_with("_d") && isDebug())
             {
                 VLOG(1) << "skipping non-debug plugin: " << quote(file_path);
@@ -64,6 +64,10 @@ public:
                 VLOG(1) << "skipping debug plugin: " << quote(file_path);
                 continue;
             }
+            //#TODO:
+            /* else if (Strings::matches(file_path, filter))
+            {
+            }*/
             else
             {
                 try
