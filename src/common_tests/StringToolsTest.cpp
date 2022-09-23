@@ -18,7 +18,7 @@ TEST(StringTools_matches, SimpleExpression)
     EXPECT_FALSE(Strings::matches("Simple testString", "(.*)string"));
 }
 
-TEST(StringTools_matchWildcard, match)
+TEST(StringTools_matchWildcard, matchStar)
 {
     EXPECT_TRUE(Strings::matchesWildCard("SomeString.x", "*.x"));
     EXPECT_TRUE(Strings::matchesWildCard("*..Flat", "*"));
@@ -26,6 +26,13 @@ TEST(StringTools_matchWildcard, match)
     EXPECT_FALSE(Strings::matchesWildCard("abcSOMEdefSOMEghi", "abc*def*ghj*"));
     EXPECT_FALSE(Strings::matchesWildCard("*..Flat", "*.y"));
 }
+
+TEST(StringTools_matchWildcard, matchQuestionMark)
+{
+    EXPECT_TRUE(Strings::matchesWildCard("SomeString.x", "Some?tring.x"));
+    EXPECT_TRUE(Strings::matchesWildCard("SomeString.xyz", "?ome?tring.???"));
+}
+
 
 TEST(StringTools, wildCardToRegex)
 {

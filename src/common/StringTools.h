@@ -14,6 +14,8 @@ public:
     static std::string wildcardToRegex(const std::string& s)
     {
         std::string res = std::regex_replace(s, std::regex("\\."), "\\.");
+        res = std::regex_replace(res, std::regex("\\?"), ".");
+     
         return std::regex_replace(res, std::regex("\\*"), ".*");
         
     }
