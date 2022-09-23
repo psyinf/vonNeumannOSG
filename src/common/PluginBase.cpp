@@ -52,6 +52,7 @@ PluginBase::PluginBase(const std::string& path)
     if (!getInfoFunction)
     {
         reportMissingInterface(path, "getInfo");
+        
     }
 
     dllHandle = handle;
@@ -64,7 +65,7 @@ void PluginBase::reportMissingInterface(const std::string& path,const std::strin
 
 PLUGIN_API void PluginBase::getInfo(PluginInfo& info) const
 {
-  getInfoFunction(info); 
+    getInfoFunction(info); 
 }
 
 PLUGIN_API PluginBase::~PluginBase()
@@ -72,7 +73,17 @@ PLUGIN_API PluginBase::~PluginBase()
    
     if (dllHandle.has_value())
     {
-        ::FreeLibrary(std::any_cast<HMODULE>(dllHandle));
+        // TODO: check effects if dll is unloaded due to error
+        PluginInfo info;
+        getInfo(info);
+        if (!info.dontUnload)
+        {
+            ::FreeLibrary(std::any_cast<HMODULE>(dllHandle));
+        }
+        else
+        {
+            // TODO: log that dll was retained
+        }
     }
 
 }

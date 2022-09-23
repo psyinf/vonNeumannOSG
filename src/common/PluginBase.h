@@ -12,6 +12,7 @@ struct PluginInfo
 {
     std::string name;
     std::string version;
+    bool        dontUnload                           = false;
     auto        operator<=>(const PluginInfo&) const = default;
 };
 

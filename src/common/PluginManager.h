@@ -1,5 +1,6 @@
 #pragma once
 #include "log.h"
+#include "StringTools.h"
 
 #include <filesystem>
 #include <format>
@@ -50,24 +51,25 @@ public:
 
         for (auto& p : std::filesystem::directory_iterator(path)) /*get directory */
         {
+            auto file_path = p.path().filename().string();
+            auto file_path_noext = p.path().filename().replace_extension("").string();
+            file_path_noext | std::ranges::views::transform([](auto c) { return std::toupper(c); });
 
-            auto file_path = p.path().filename().replace_extension("").string();
-            file_path | std::ranges::views::transform([](auto c) { return std::toupper(c); });
-           
-            if (!file_path.ends_with("_d") && isDebug())
+            if (!Strings::matchesWildCard(file_path, filter))
             {
-                VLOG(1) << "skipping non-debug plugin: " << quote(file_path);
+                VLOG(1) << "skipping non matching plugin: " << quote(file_path);
                 continue;
             }
-            else if (file_path.ends_with("_d") && !isDebug())
+            else if (!file_path_noext.ends_with("_d") && isDebug())
             {
-                VLOG(1) << "skipping debug plugin: " << quote(file_path);
+                VLOG(1) << "skipping non-debug plugin: " << quote(file_path_noext);
                 continue;
             }
-            //#TODO:
-            /* else if (Strings::matches(file_path, filter))
+            else if (file_path_noext.ends_with("_d") && !isDebug())
             {
-            }*/
+                VLOG(1) << "skipping debug plugin: " << quote(file_path_noext);
+                continue;
+            }
             else
             {
                 try
@@ -77,13 +79,13 @@ public:
                     plugin->getInfo(plugin_info);
                     if (!mPlugins.count(plugin_info))
                     {
-                        LOG(INFO) << std::format("Found plugin {} [{}]", p.path().filename().string(), plugin_info.name);
+                        LOG(INFO) << std::format("Found plugin {} [{}]", file_path, plugin_info.name);
                         mPlugins[plugin_info] = plugin;
                         ++num_loaded;
                     }
                     else
                     {
-                        LOG(WARNING) << std::format("Skipping plugin {} [{}], already registered.", p.path().filename().string(), plugin_info.name);
+                        LOG(WARNING) << std::format("Skipping plugin {} [{}], already registered.", file_path, plugin_info.name);
                     }
                 }
                 catch (const std::exception& e)

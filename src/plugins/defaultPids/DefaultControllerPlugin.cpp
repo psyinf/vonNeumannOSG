@@ -14,7 +14,7 @@
 
 extern "C" CONTROLLER_PLUGIN_API void getInfo(common::PluginInfo& info)
 {
-    info.name = "DefaultPIDControllers";
+    info.name = "DefaultPIDController";
 }
 
 extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::EntityBehaviorRegistry& registry)

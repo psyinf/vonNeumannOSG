@@ -1,4 +1,4 @@
-set(MODULE_NAME DefaultScenes)
+set(MODULE_NAME DefaultSceneBehaviorPlugin)
 find_package(OpenSceneGraph CONFIG REQUIRED)
 
 file(GLOB_RECURSE PRIVATE_FILES	CONFIGURE_DEPENDS	*.*)

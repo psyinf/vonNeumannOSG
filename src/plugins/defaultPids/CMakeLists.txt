@@ -1,4 +1,4 @@
-set(MODULE_NAME DefaultPids)
+set(MODULE_NAME DefaultPidControllerPlugin)
 find_package(OpenSceneGraph CONFIG REQUIRED)
 
 file(GLOB_RECURSE PRIVATE_FILES	CONFIGURE_DEPENDS	*.*)

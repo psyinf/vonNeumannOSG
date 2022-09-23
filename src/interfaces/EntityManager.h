@@ -14,7 +14,8 @@ class EntityBehaviorPlugin;
  */
 class EntityManager
 {
-    using PluginManager = common::PluginManager<entities::EntityBehaviorPlugin, common::PluginInfo>;
+    using BehaviorPluginManager = common::PluginManager<entities::EntityBehaviorPlugin, common::PluginInfo>;
+    using LoaderPluginManager = common::PluginManager<common::PluginBase, common::PluginInfo>;
 
 public :
     EntityManager();
@@ -23,6 +24,7 @@ public :
 
 private:
     std::unique_ptr<EntityBehaviorRegistry> behaviorRegistry;
-    std::unique_ptr<PluginManager>  pluginManager = std::make_unique<PluginManager>();
+    std::unique_ptr<BehaviorPluginManager>  behaviorPluginManager = std::make_unique<BehaviorPluginManager>();
+    std::unique_ptr<LoaderPluginManager>    loaderPluginManager = std::make_unique<LoaderPluginManager>();
 };
 } // namespace entities

@@ -9,6 +9,7 @@ add_library(${MODULE_NAME} MODULE
 
 target_link_libraries(${MODULE_NAME}
 	PUBLIC
+		${PROJECT_NAMESPACE}::common
 		OPENSCENEGRAPH::osg OPENSCENEGRAPH::osgDB
 	PRIVATE
 )
