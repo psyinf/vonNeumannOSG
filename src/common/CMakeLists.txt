@@ -19,13 +19,13 @@ add_library(${PROJECT_NAMESPACE}::${LIB_NAME} ALIAS ${LIB_NAME})
 target_link_libraries(${LIB_NAME}
 	PUBLIC	
 		Boost::headers
-	
+		glog::glog
 	PRIVATE
-		 OPENSCENEGRAPH::osg
+		OPENSCENEGRAPH::osg
 		
 	INTERFACE
 		nlohmann_json::nlohmann_json
-		glog::glog
+	
 
 )	
 

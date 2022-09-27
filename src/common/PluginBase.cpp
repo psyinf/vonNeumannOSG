@@ -1,4 +1,6 @@
 #include "PluginBase.h"
+#include <log.h>
+
 #include <array>
 #include <format>
 #include <functional>
@@ -52,7 +54,6 @@ PluginBase::PluginBase(const std::string& path)
     if (!getInfoFunction)
     {
         reportMissingInterface(path, "getInfo");
-        
     }
 
     dllHandle = handle;
@@ -73,7 +74,6 @@ PLUGIN_API PluginBase::~PluginBase()
    
     if (dllHandle.has_value())
     {
-        // TODO: check effects if dll is unloaded due to error
         PluginInfo info;
         getInfo(info);
         if (!info.dontUnload)
@@ -82,7 +82,7 @@ PLUGIN_API PluginBase::~PluginBase()
         }
         else
         {
-            // TODO: log that dll was retained
+            LOG(INFO) << "Plugin " << info.name << " is will not be unloaded automatically due to its configuration";
         }
     }
 

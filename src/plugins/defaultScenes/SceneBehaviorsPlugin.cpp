@@ -10,10 +10,11 @@
 
 
 #define SCENE_BEHAVIOR_PLUGIN _declspec(dllexport)
+const static std::string              pluginName = "SceneBehaviorsPlugin";
 
 extern "C" SCENE_BEHAVIOR_PLUGIN void getInfo(common::PluginInfo& info)
 {
-    info.name = "SceneBehaviorsPlugin";
+    info.name = pluginName;
 }
 
 extern "C" SCENE_BEHAVIOR_PLUGIN void registerPlugin(entities::EntityBehaviorRegistry& registry)
@@ -26,8 +27,7 @@ extern "C" SCENE_BEHAVIOR_PLUGIN void registerPlugin(entities::EntityBehaviorReg
     }
     catch (const std::exception& e)
     {
-        // TODO: log
-        // throw;
-        // core.logError(std::string("Unable to register DISSystem :") + std::string(e.what()), __FUNCTION__);
+        LOG(ERROR) << "Error registering plugin " << pluginName << ": " << e.what();
+        throw;
     }
 }

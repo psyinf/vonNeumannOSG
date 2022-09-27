@@ -1,3 +1,4 @@
+#include "log.h"
 #include "controllers/goto/GotoController.h"
 #include "controllers/orientation/OrientationController.h"
 #include "controllers/position/PositionController.h"
@@ -11,10 +12,11 @@
 
 
 #define CONTROLLER_PLUGIN_API _declspec(dllexport)
+const static std::string                    pluginName = "DefaultPIDController";
 
 extern "C" CONTROLLER_PLUGIN_API void getInfo(common::PluginInfo& info)
 {
-    info.name = "DefaultPIDController";
+    info.name = pluginName;
 }
 
 extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::EntityBehaviorRegistry& registry)
@@ -27,7 +29,7 @@ extern "C" CONTROLLER_PLUGIN_API void registerPlugin(entities::EntityBehaviorReg
     }
     catch (const std::exception& e)
     {
-        // TODO: log
-        // throw;
+        LOG(ERROR) << "Error registering plugin " << pluginName << ": " << e.what();
+        throw;
     }
 }
