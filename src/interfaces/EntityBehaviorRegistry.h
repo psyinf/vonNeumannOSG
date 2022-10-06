@@ -20,7 +20,7 @@ using BehaviorBaseCtor = boost::function<BehaviorBase*(const Config& conf)>;
 class EntityBehaviorRegistry : public common::FactoryRegistry<BehaviorBaseCtor>
 {
 public:
-    std::shared_ptr<BehaviorBase> get(const std::string& entity_type, const nsConfig::BehaviorConf& conf);
+    std::shared_ptr<BehaviorBase> get(const std::string& entity_type, const config::BehaviorConf& conf);
 
 protected:
     std::map<std::string, std::shared_ptr<BehaviorBase>, std::less<>> registry;

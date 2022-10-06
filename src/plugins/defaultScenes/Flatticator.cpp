@@ -4,7 +4,7 @@
 
 using namespace entities;
 
-Flatticator::Flatticator(const nsConfig::BehaviorConf& conf)
+Flatticator::Flatticator(const config::BehaviorConf& conf)
     : BehaviorBase(conf)
 {
     this->flattenAxis = conf.conf["axis"];

@@ -4,7 +4,7 @@
 
 #include <nlohmann/json.hpp>
 #include <osgJsonSerializer.h>
-namespace nsConfig
+namespace config
 {
 struct PositionAttitudeConf
 {
@@ -17,4 +17,4 @@ struct PositionAttitudeConf
     }
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PositionAttitudeConf, pos, scale)
-} // namespace nsConfig
+} // namespace config

@@ -3,7 +3,7 @@
 #include <PositionAttitudeConf.h>
 #include <nlohmann/json.hpp>
 
-namespace nsConfig
+namespace config
 {
 struct Gizmo
 {
@@ -14,4 +14,4 @@ struct Gizmo
     PositionAttitudeConf pat;
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(Gizmo, enabled, type, mapping, model, pat)
-} // namespace nsConfig
+} // namespace config

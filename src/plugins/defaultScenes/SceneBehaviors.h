@@ -8,7 +8,7 @@ class Reflector : public BehaviorBase
     osg::BoundingBox box;
 
 public:
-    explicit Reflector(const nsConfig::BehaviorConf& conf);
+    explicit Reflector(const config::BehaviorConf& conf);
     void frame(Entity& entity, FrameTime frameTime) override;
 };
 
@@ -17,7 +17,7 @@ class Torusifator : public BehaviorBase
     osg::BoundingBox box;
 
 public:
-    explicit Torusifator(const nsConfig::BehaviorConf& conf);
+    explicit Torusifator(const config::BehaviorConf& conf);
     void frame(Entity& entity, FrameTime frameTime) override;
 };
 

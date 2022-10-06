@@ -6,7 +6,7 @@
 class GotoController : public entities::BehaviorBase
 {
 public:
-    explicit GotoController(const nsConfig::BehaviorConf& conf);
+    explicit GotoController(const config::BehaviorConf& conf);
 
     ~GotoController() = default;
 

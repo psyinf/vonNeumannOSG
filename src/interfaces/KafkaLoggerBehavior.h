@@ -10,7 +10,7 @@ namespace entities
 class KafkaLogger : public BehaviorBase
 {
 public:
-    KafkaLogger(const nsConfig::BehaviorConf& conf);
+    KafkaLogger(const config::BehaviorConf& conf);
 
 
     void frame(Entity& entity, FrameTime frameTime) override;

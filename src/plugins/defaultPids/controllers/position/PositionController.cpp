@@ -17,7 +17,7 @@ void PositionController::frame(Entity& entity, FrameTime frameTime)
 }
 
 
-PositionController::PositionController(const nsConfig::BehaviorConf& conf)
+PositionController::PositionController(const config::BehaviorConf& conf)
     : BehaviorBase(conf)
 {
     const auto& pid = conf.conf["pid"];

@@ -27,7 +27,7 @@ public:
     struct GizmoInfo
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> pat{};
-        nsConfig::Gizmo                              gizmo;
+        config::Gizmo                              gizmo;
     };
     using GizmoInfos = std::unordered_map<std::string, GizmoInfo>;
 
@@ -37,9 +37,9 @@ public:
 
     Entity(const std::string& name, const std::string& config, std::shared_ptr<EntityManager> em);
 
-    void initializeBehaviours(nsConfig::EntityConf& conf);
+    void initializeBehaviours(config::EntityConf& conf);
 
-    void initializeGizmos(nsConfig::EntityConf& conf);
+    void initializeGizmos(config::EntityConf& conf);
 
 
     const osg::Vec3d& getVelocity() const;

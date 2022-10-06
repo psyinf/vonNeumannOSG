@@ -5,7 +5,7 @@
 
 #include <vector>
 
-const cppkafka::Configuration config = {
+const cppkafka::Configuration cconfig = {
     {"metadata.broker.list", "127.0.0.1:9093"},
     // { "debug", "all" },
     //{"group.id", "viewer"},
@@ -15,7 +15,7 @@ const cppkafka::Configuration config = {
 
 };
 
-entities::KafkaLogger::KafkaLogger(const nsConfig::BehaviorConf& conf)
+entities::KafkaLogger::KafkaLogger(const config::BehaviorConf& conf)
     : BehaviorBase(conf)
     , dataLogger(std::make_unique<nsDataLogger::DataLogger>([this](auto m) { this->handleMessage(std::move(m)); }, [this]() { this->flush(); }))
 {

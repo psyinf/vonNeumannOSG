@@ -3,7 +3,7 @@
 
 #include <PositionAttitudeConf.h>
 #include <nlohmann/json.hpp>
-namespace nsConfig
+namespace config
 {
 struct Marker
 {
@@ -13,4 +13,4 @@ struct Marker
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Marker, enabled, model, pat)
 
-} // namespace nsConfig
+} // namespace config

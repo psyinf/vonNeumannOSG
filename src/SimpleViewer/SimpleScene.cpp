@@ -19,7 +19,7 @@ void SimpleScene::load(const std::string& fileName)
 {
     LOG(INFO) << "Loading scene " << quote(fileName);
     std::shared_ptr<entities::EntityManager> entityManager = std::make_unique<entities::EntityManager>();
-    const auto                               scene         = nsConfig::load<nsConfig::SceneConfig>(fileName);
+    const auto                               scene         = config::load<config::SceneConfig>(fileName);
 
     // load behaviors from config
     std::vector<std::pair<std::string, std::shared_ptr<entities::BehaviorBase>>> sceneBehaviorInstances;
@@ -48,7 +48,7 @@ void SimpleScene::load(const std::string& fileName)
         auto model = osgDB::readNodeFile(marker.model);
         auto pat   = new osg::PositionAttitudeTransform();
 
-        nsConfig::PositionAttitudeConf::from(pat, marker.pat);
+        config::PositionAttitudeConf::from(pat, marker.pat);
 
         pat->addChild(model);
         // TODO: re-normalize normals after scale?

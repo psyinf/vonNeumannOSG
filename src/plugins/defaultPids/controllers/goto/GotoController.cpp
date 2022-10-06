@@ -58,7 +58,7 @@ void GotoController::frame(Entity& entity, FrameTime frameTime)
             osg::Quat   q;
             const auto& current = entity.getAttitude();
             q.makeRotate(-Entity::forwardDirection, value);
-            nsConfig::PositionAttitudeConf::from(info.pat, info.gizmo.pat);
+            config::PositionAttitudeConf::from(info.pat, info.gizmo.pat);
             info.pat->setAttitude(q * current.conj());
         }
         else
@@ -69,7 +69,7 @@ void GotoController::frame(Entity& entity, FrameTime frameTime)
 }
 
 
-GotoController::GotoController(const nsConfig::BehaviorConf& conf)
+GotoController::GotoController(const config::BehaviorConf& conf)
     : BehaviorBase(conf)
 {
     const auto& pid = conf.conf["pid"];

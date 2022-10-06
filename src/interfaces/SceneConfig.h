@@ -4,7 +4,7 @@
 #include <nlohmann/json.hpp>
 
 
-namespace nsConfig
+namespace config
 {
 
 // a simple struct to model an entity
@@ -20,4 +20,4 @@ struct SceneConfig
 
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SceneConfig, name, defaultEntity, numDrones, sceneSize, sceneBehaviors, markers)
-} // namespace nsConfig
+} // namespace config

@@ -2,7 +2,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace nsConfig
+namespace config
 {
 struct BehaviorConf
 {
@@ -12,4 +12,4 @@ struct BehaviorConf
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(BehaviorConf, enabled, type, conf)
 
-} // namespace nsConfig
+} // namespace config

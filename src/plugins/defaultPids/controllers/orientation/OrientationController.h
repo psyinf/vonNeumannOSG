@@ -6,7 +6,7 @@
 class OrientationController : public entities::BehaviorBase
 {
 public:
-    explicit OrientationController(const nsConfig::BehaviorConf& conf);
+    explicit OrientationController(const config::BehaviorConf& conf);
 
     ~OrientationController() = default;
 

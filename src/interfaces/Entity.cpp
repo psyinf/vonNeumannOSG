@@ -11,14 +11,14 @@ Entity::Entity(const std::string& name, const std::string& config, const std::sh
     : PositionAttitudeTransform()
     , entityManager(em)
 {
-    auto conf = nsConfig::load<nsConfig::EntityConf>(config);
+    auto conf = config::load<config::EntityConf>(config);
     PositionAttitudeTransform::setName(name);
 
     for (const auto& model : conf.models)
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform;
         pat->addChild(osgDB::readNodeFile(model.model));
-        nsConfig::PositionAttitudeConf::from(pat, model.pat);
+        config::PositionAttitudeConf::from(pat, model.pat);
 
         PositionAttitudeTransform::addChild(pat);
     }
@@ -113,7 +113,7 @@ void Entity::updateGizmos(const osg::NodeVisitor* nv)
             osg::Quat q;
             auto      current = getAttitude();
             q.makeRotate(-Entity::forwardDirection, Entity::getVelocity());
-            nsConfig::PositionAttitudeConf::from(pat, info.gizmo.pat);
+            config::PositionAttitudeConf::from(pat, info.gizmo.pat);
             pat->setAttitude(q * current.conj());
             // TODO: scale wit actual velocity. https://trello.com/c/rqvMVBjV
         }
@@ -125,7 +125,7 @@ const Entity::GizmoInfos& Entity::getGizmos() const
     return gizmos;
 }
 
-void Entity::initializeGizmos(nsConfig::EntityConf& conf)
+void Entity::initializeGizmos(config::EntityConf& conf)
 {
     for (const auto& gizmo : conf.gizmos)
     {
@@ -135,7 +135,7 @@ void Entity::initializeGizmos(nsConfig::EntityConf& conf)
         }
         auto                                         model = osgDB::readNodeFile(gizmo.model);
         osg::ref_ptr<osg::PositionAttitudeTransform> pat   = new osg::PositionAttitudeTransform;
-        nsConfig::PositionAttitudeConf::from(pat, gizmo.pat);
+        config::PositionAttitudeConf::from(pat, gizmo.pat);
         addChild(pat);
 
         pat->addChild(model);
@@ -143,7 +143,7 @@ void Entity::initializeGizmos(nsConfig::EntityConf& conf)
     }
 }
 
-void Entity::initializeBehaviours(nsConfig::EntityConf& conf)
+void Entity::initializeBehaviours(config::EntityConf& conf)
 {
     for (const auto& behaviorConf : conf.behaviors)
     {

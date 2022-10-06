@@ -9,7 +9,7 @@
 using namespace entities;
 
 
-Reflector::Reflector(const nsConfig::BehaviorConf& conf)
+Reflector::Reflector(const config::BehaviorConf& conf)
     : BehaviorBase(conf)
 {
     const float minSize = conf.conf["box"]["min"];
@@ -59,7 +59,7 @@ void Reflector::frame(Entity& entity, FrameTime frameTime)
 }
 
 
-Torusifator::Torusifator(const nsConfig::BehaviorConf& conf)
+Torusifator::Torusifator(const config::BehaviorConf& conf)
     : BehaviorBase(conf)
 {
     const float minSize = conf.conf["box"]["min"];

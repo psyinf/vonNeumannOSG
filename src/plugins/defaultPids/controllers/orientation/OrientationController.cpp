@@ -38,7 +38,7 @@ void OrientationController::frame(Entity& entity, FrameTime frameTime)
 }
 
 
-OrientationController::OrientationController(const nsConfig::BehaviorConf& conf)
+OrientationController::OrientationController(const config::BehaviorConf& conf)
     : BehaviorBase(conf)
 {
     const auto& pid = conf.conf["pid"];

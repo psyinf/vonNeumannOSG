@@ -10,7 +10,7 @@ class Flatticator : public BehaviorBase
     Axis flattenAxis;
 
 public:
-    explicit Flatticator(const nsConfig::BehaviorConf& conf);
+    explicit Flatticator(const config::BehaviorConf& conf);
     void frame(Entity& entity, FrameTime frameTime) override;
 };
 } // namespace entities

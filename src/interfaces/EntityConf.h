@@ -3,7 +3,7 @@
 #include <GizmoConf.h>
 #include <PositionAttitudeConf.h>
 #include <nlohmann/json.hpp>
-namespace nsConfig
+namespace config
 {
 struct Model
 {
@@ -22,4 +22,4 @@ struct EntityConf
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityConf, type, models, behaviors, properties, gizmos)
 
-} // namespace nsConfig
+} // namespace confíg
