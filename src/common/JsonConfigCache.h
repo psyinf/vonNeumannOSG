@@ -5,11 +5,11 @@
 
 namespace config{
 
-static std::map<std::string, std::any> configItems;
+
 
 template<class T>
 static T load(const std::string& fileName) {
-
+    static std::map<std::string, std::any> configItems;
 	auto iter = configItems.find(fileName);
 	if (iter == configItems.end()) {
 		try {

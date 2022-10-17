@@ -27,6 +27,7 @@ class BehaviorBase
 public:
     explicit BehaviorBase(const config::BehaviorConf& conf)
         : conf(conf){};
+    virtual ~BehaviorBase()                                                = default;
 
     virtual void                  frame(Entity& entity, FrameTime frameTime) = 0;
     const config::BehaviorConf& getConf() const

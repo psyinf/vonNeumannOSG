@@ -1,6 +1,6 @@
-set(APP_NAME SimpleViewer)
+set(APP_NAME SandboxViewer)
 project(${APP_NAME} LANGUAGES CXX)
-find_package(nlohmann_json CONFIG REQUIRED)
+find_packa
 find_package(OpenSceneGraph CONFIG REQUIRED)
 find_package(glog REQUIRED)
 file(GLOB HEADER_FILES 	CONFIGURE_DEPENDS "*.h")

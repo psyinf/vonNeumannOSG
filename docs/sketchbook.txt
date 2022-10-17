@@ -1,0 +1,40 @@
+* Scenes abstraction (Loading Screen, Drone configurator, Universe Map)´
+** Scene as configuration
+** represented by a graph and metainformation
+
+
+* Multiple tiers
+** Probe only:
+We are adrift, waking up, not recalling our purpose nor mission. Some systems are down and we need to get things running again
+Start with activating a repair drone... After fixing sensors we can open a map view
+** Start System
+In a KSP like view, we see a star, probably planets, the kuiper belt and some bigger plantoids/asteroids. We can start doing hohman transfers to gather resources to get the printers running. 
+
+
+
+
+Core concepts
+* Probe view
+** Compartments and functions. See Probe floating in space
+* Compartments
+** Functional Units
+*** Core - Our AI core
+*** Power Source (initially fusion) Tech1
+*** Navigational Shields (magnetic shield in front of the probe)
+*** Sensor Array (telescope for star system ) 
+*** Drone Bay (Drones are stored here)
+*** Printer 
+*** Storage
+
+
+
+* Drones 
+** Small to medium entities
+** Small drones 
+**** construction, repair, gathering 
+** Medium drones 
+**** Weapon platforms
+**** Sensor platforms
+**** Base Platform
+
+
